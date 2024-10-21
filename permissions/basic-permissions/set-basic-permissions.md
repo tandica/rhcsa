@@ -1,7 +1,7 @@
 
-# Setting Basic Permissions in Linux
+# Setting Basic Permissions
 ## Exercise 7-1
-How to set basic permissions, changing ownership, and testing access with different users in Linux.
+How to set basic permissions, changing ownership, and testing access with different users.
 
 ### Step 1: Create the necessary directories
 
