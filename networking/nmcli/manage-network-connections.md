@@ -16,7 +16,6 @@ nmcli con add con-name dhcp type ethernet ifname ens160 ipv4.method auto
 
 ### Step 2: Create a connections with static ip address and gateway
 
-
 ```bash
 nmcli con add con-name static ifname ens160 autoconnect no type ethernet ip4 10.0.0.10/24 gw4 10.0.0.1 ipv4.method manual
 # Output:
