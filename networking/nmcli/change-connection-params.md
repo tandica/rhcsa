@@ -41,7 +41,7 @@ nmcli con mod static ipv4.addresses 10.20.30.40/16
 nmcli con mod static +ipv4.addresses 10.0.0.100/24
 ```
 
-### Step 4: Change existing parameters 
+### Step 6: Change existing parameters 
 
 Alter the existing ip address
 
@@ -49,7 +49,7 @@ Alter the existing ip address
 nmcli con mod static ipv4.addresses 10.20.30.40/16
 ```
 
-### Step 5: Activate the connection
+### Step 7: Activate the connection
 
 **Always** activate the connection after changing properties.
 
