@@ -103,38 +103,86 @@ dnf install -y setools-console
 
 ```
 
-### Step 5: Verify the newly created repository
+### Step 5: Verify the package is installed
 Add the GPG check to the end of each file created, then verify the availability of the new repo.
 
 ```bash
-ls /etc/yum.repos.d/.
+dnf list setools-console
 # Output:
 
-# redhat.repo  repo_AppStream.repo  repo_BaseOS.repo
-
-vim /etc/yum.repos.d/repo_AppStream.repo 
+# Updating Subscription Management repositories.
+# Last metadata expiration check: 0:01:30 ago on Mon 04 Nov 2024 10:00:32 PM.
+# Installed Packages
+# setools-console.x86_64                             4.4.4-1.el9                              @rhel-9-for-x86_64-baseos-rpms
 ```
-In the vim editor, add this line to the end of the file:
+
+### Step 5: Remove the package
+Add the GPG check to the end of each file created, then verify the availability of the new repo.
 
 ```bash
-gpgcheck=0
-```
-This line means that the repo does not have to perform an integrity check for security purposes.
-
-Do the same for /etc/yum.repos.d/repo_BaseOS.repo. 
-
-Check the availability of the new repo:
-```bash
-dnf repolist
-
+dnf history
 # Output:
 
-# repo id                          repo name
-# repo_AppStream                   created by dnf config-manager from file:///repo/AppStream
-# repo_BaseOS                      created by dnf config-manager from file:///repo/BaseOS
-# rhel-9-for-x86_64-appstream-rpms Red Hat Enterprise Linux 9 for x86_64 - AppStream (RPMs)
-# rhel-9-for-x86_64-baseos-rpms    Red Hat Enterprise Linux 9 for x86_64 - BaseOS (RPMs)
+# ID     | Command line                                                        | Date and time    | Action(s)      | Altered
+# --------------------------------------------------------------------------------------------------------------------------
+#      2 | install -y setools-console                                          | 2024-11-04 21:57 | Upgrade        |    2  <
+#      1 |                                                                     | 2024-10-28 09:24 | Install        | 1744 >E
+
+dnf history undo 2 
+# Output: 
+
+# Last metadata expiration check: 0:04:41 ago on Mon 04 Nov 2024 10:00:32 PM.
+# Dependencies resolved.
+# ================================================================================================================================
+#  Package                       Architecture         Version                   Repository                                   Size
+# ================================================================================================================================
+# Downgrading:
+#  python3-setools               x86_64               4.4.1-1.el9               rhel-9-for-x86_64-baseos-rpms               600 k
+#  setools-console               x86_64               4.4.1-1.el9               rhel-9-for-x86_64-baseos-rpms                49 k
+
+# Transaction Summary
+# ================================================================================================================================
+# Downgrade  2 Packages
+
+# Total download size: 649 k
+# Is this ok [y/N]: y
+# Downloading Packages:
+# (1/2): python3-setools-4.4.1-1.el9.x86_64.rpm                                                   114 kB/s | 600 kB     00:05    
+# (2/2): setools-console-4.4.1-1.el9.x86_64.rpm                                                   9.0 kB/s |  49 kB     00:05    
+# --------------------------------------------------------------------------------------------------------------------------------
+# Total                                                                                           120 kB/s | 649 kB     00:05     
+# Running transaction check
+# Transaction check succeeded.
+# Running transaction test
+# Transaction test succeeded.
+# Running transaction
+#   Preparing        :                                                                                                        1/1 
+#   Downgrading      : python3-setools-4.4.1-1.el9.x86_64                                                                     1/4 
+#   Downgrading      : setools-console-4.4.1-1.el9.x86_64                                                                     2/4 
+#   Cleanup          : setools-console-4.4.4-1.el9.x86_64                                                                     3/4 
+#   Cleanup          : python3-setools-4.4.4-1.el9.x86_64                                                                     4/4 
+#   Running scriptlet: python3-setools-4.4.4-1.el9.x86_64                                                                     4/4 
+#   Verifying        : python3-setools-4.4.1-1.el9.x86_64                                                                     1/4 
+#   Verifying        : python3-setools-4.4.4-1.el9.x86_64                                                                     2/4 
+#   Verifying        : setools-console-4.4.1-1.el9.x86_64                                                                     3/4 
+#   Verifying        : setools-console-4.4.4-1.el9.x86_64                                                                     4/4 
+# Installed products updated.
+
+# Downgraded:
+#   python3-setools-4.4.1-1.el9.x86_64                             setools-console-4.4.1-1.el9.x86_64                            
+
+# Complete!
+
+# Verify that the package is not installed
+dnf list setools-console
+# Output: 
+
+# Last metadata expiration check: 0:07:09 ago on Mon 04 Nov 2024 10:00:32 PM.
+# Available Packages
+# setools-console.x86_64                                4.4.4-1.el9                                 rhel-9-for-x86_64-baseos-rpms 
 ```
+
+Notice the package is **Available** and not **Installed**
 
 ---
 
