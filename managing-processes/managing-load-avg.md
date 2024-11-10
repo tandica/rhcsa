@@ -1,6 +1,6 @@
 # Managing load average
-## Exercise 10-2
-How to load average.
+## Exercise 10-3
+How to use load average.
 
 ### Step 1: Run the following *dd* command 3 times
 
@@ -33,7 +33,7 @@ uptime
 #  02:12:17 up  2:58,  2 users,  load average: 2.83, 1.43, 0.87
 ```
 
-### Step 2: CPU
+### Step 3: CPU
 
 Find the number of CPUs and cores per CPU parameter.
 
