@@ -40,7 +40,7 @@ tuned-adm recommended
 # virtual-guest
 ```
 
-Activate the *throughput-performance profile*
+Activate the *throughput-performance* profile
 
 ```bash
 tuned-adm profile throughput-performance
@@ -48,5 +48,7 @@ tuned-adm profile throughput-performance
 
 # Current active profile: throughput-performance
 ```
+
+Change it back to the *virtual-guest* profile, since that was the recommended profile.
 
 ---
