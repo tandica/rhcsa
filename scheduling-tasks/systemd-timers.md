@@ -1,6 +1,6 @@
 # Using Systemd timers
 ## Exercise 12-1
-How to manage units.
+Exploring Systemd timers.
 
 ### Step 1: Show a list of all timers
 
