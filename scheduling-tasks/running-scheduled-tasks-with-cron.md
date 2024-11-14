@@ -1,4 +1,4 @@
-# Running scheduled tasks with cron
+# Running scheduled tasks with *cron*
 ## Exercise 12-2
 How to run scheduled tasks with cron..
 
