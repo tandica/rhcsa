@@ -57,7 +57,9 @@ In a few hours, verify that the cron job is running. For this, we search the log
 grep written /var/log/messages
 # Output: 
 
-# TBD
+# Nov 13 22:01:01 localhost root[8902]: This message is written at Wed 13 Nov 2024 10:01:01 PM EST
+# Nov 13 22:11:01 localhost root[9056]: This message is written from /etc/cron.d
+# Nov 14 21:01:01 localhost root[5923]: This message is written at Thu 14 Nov 2024 09:01:01 PM EST
 ```
 
 ---
