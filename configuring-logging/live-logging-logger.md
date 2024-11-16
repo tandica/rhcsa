@@ -27,7 +27,7 @@ Notice that the first terminal logs this error:
 Nov 15 23:42:30 localhost su[5461]: FAILED SU (to student) tandi on pts/1
 ```
 
-### Step 2: Open a second terminal and change to another user (student).
+### Step 3: Open a second terminal and change to another user (student).
 
 Login as student with the correct password and use the logger command to make a log entry.
 
@@ -43,7 +43,7 @@ Notice the message appears in the first terminal:
 Nov 15 23:45:55 localhost student[5577]: hello hi
 ```
 
-### Step 3: Observe authentication error logs
+### Step 4: Observe authentication error logs
 
 In the root terminal, stop tracing the log files and type the below command.
 
