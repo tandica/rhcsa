@@ -10,7 +10,7 @@ Log in as root and make the **/var/log/journal** directory. This is where we can
 ```bash
 su - root
 
-cd /var/log/journal
+mkdir /var/log/journal
 ```
 
 ### Step 2: Change ownership and permissions of the directory.
@@ -39,5 +39,30 @@ systemctl restart systemd-journal-flush
 ```
 
 The systemd journal will now be persistent across reboots. 
+
+
+## Another way to do the same thing
+
+1. Create the directory.
+
+```bash
+su - root
+
+mkdir /var/log/journal
+```
+
+2. Edit the journald.conf file and add the commented line.
+
+```bash
+vim /etc/systemd/journald.conf
+#Storage=persistent
+```
+
+2. Restart the service and verify the persistent logs.
+```bash
+systemctl restart systemd-journal
+
+ls -l /var/log/journal
+```
 
 ---
