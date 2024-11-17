@@ -65,6 +65,12 @@ Look for a details of a service:
 journalctl_SYSTEMD_UNIT=sshd.service 
 ```
 
+This command shows messages related to the kernel: 
+
+```bash
+journalctl --dmesg
+```
+
 ### 3. Combining journalctl options
 
 You can combine various options to get detailed output of the info you want.
