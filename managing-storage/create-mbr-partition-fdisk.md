@@ -1,6 +1,8 @@
 # Creating MBR partitions with fdisk
 ## Exercise 14-1
 
+How to add a primary partition.
+
 ### Step 1: Add a new disk to the virtual machine
 
 **1.1. Power off the virtual machine.**
