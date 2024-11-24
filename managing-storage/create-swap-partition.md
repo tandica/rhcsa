@@ -1,5 +1,5 @@
 # Create a swap partition
-## Exercise 14-5
+## Exercise 14-6
 
 
 ### Step 1: Create a new partition
