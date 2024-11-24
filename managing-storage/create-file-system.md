@@ -24,7 +24,7 @@ mkfs.xfs /dev/nvme0n2
 # realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
 
-You can also accomplish this with the command `mkfs -t xfs /dev/nvme0n2`.
+> You can also accomplish this with the command `mkfs -t xfs /dev/nvme0n2`.
 
 
 ---
