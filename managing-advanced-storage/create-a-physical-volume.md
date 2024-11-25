@@ -35,6 +35,8 @@ nvme0n5     259:12   0   20G  0 disk
 
 ### Step 2: Create a new partition
 
+Start from a root shell. 
+
 ```bash
 fdisk /dev/nvme0n5
 ```
