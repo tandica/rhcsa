@@ -47,7 +47,7 @@ pvs
 
 ### Step 2: Create the LVM logical volume
 
-Create an LVM logical volume with the name lvdata, which will use 50% of available disk spcae in the vgdata volume group.
+Create an LVM logical volume with the name lvdata, which will use 50% of available disk space in the vgdata volume group.
 
 ```bash
 lvcreate -n lvdata -l 50%FREE vgdata
