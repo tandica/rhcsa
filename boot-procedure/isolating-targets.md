@@ -4,7 +4,7 @@
 
 ### Step 1: List all targets that allow isolation.
 
-Start from a root user and go to */usr/lib/systemd/system*. earch for the targets that alloow isolation.
+Start from a root user and go to */usr/lib/systemd/system*. Search for the targets that allow isolation.
 
 ```bash
 su - root 

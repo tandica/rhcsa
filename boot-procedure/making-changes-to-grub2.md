@@ -24,7 +24,7 @@ Save and exit the file.
 ### Step 3: Write the changes to GRUB 2.
 
 ```bash
-grub2-mkconfig > /boot/grub2/grub
+grub2-mkconfig > /boot/grub2/grub.cfg
 # Output:
 
 # Generating grub configuration file ...
