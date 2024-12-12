@@ -31,5 +31,33 @@ exit 0
 
 #### 2. Write a countdown script. The script should use one argument (and not more than one). This argument specifies the number of minutes to count down. It should start with that number of minutes and count down second by second, writing the text “there are nn seconds remaining” at every iteration. Use sleep to define the seconds. When there is no more time left, the script should echo “time is over” and quit.
 
+**1.1. Create a script file**
+
+```bash
+vim lab-19-2.sh
+```
+
+**1.2. Write the logic specified**
+
+```bash 
+#!/bin/bash
+
+  # convert minutes to seconds
+total_seconds=$((60 * $1))
+
+while [ $total_seconds -gt 0 ]
+do
+  echo “There are $total_seconds seconds remaining” 
+  # pause between iterations for 1 second
+  sleep 1
+  # decrement the amount of seconds by one for each iteration
+  total_seconds=$(( total_seconds - 1 ))
+done
+
+echo "Time is over!"
+
+exit 0
+```
+
 
 ---
