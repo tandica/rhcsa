@@ -1,4 +1,4 @@
-# Mounbting an NFS share
+# Mounting an NFS share
 ## Exercise 24-2
 
 
