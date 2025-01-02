@@ -1,7 +1,7 @@
 # Offering an NFS share
 ## Exercise 24-1
 
-This exercise has some steps to se4t up an NFS server.
+This exercise has some steps to set up an NFS server.
 
 ### Step 1: Set up the files/directories that will be shared.
 
