@@ -43,7 +43,7 @@ Restart the *autofs* service.
 systemctl restart autofs
 ```
 
-Get access to the /user/user1 directory on server2 through the mount you just created.
+Get access to the /user/user1 directory on server2 through the mount you just created in server1.
 
 ```bash
 cd /user/user1
