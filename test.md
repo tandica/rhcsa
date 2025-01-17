@@ -5,7 +5,7 @@ Ex: `node server.js > logs.txt` logs the output of the node command in logs.txt.
 
 `>>` is used for redirecting output to the end of a file, appending it to the bottom of already existing data. 
 
-`2>` and `2>>` work the same way, but for only errors. 
+`2>` and `2>>` works the same way, but for only errors. 
 
 `&>` and `&>>` works the same way, but for **both** output and error messages. 
 
@@ -56,12 +56,28 @@ WORD>>
 File permissions include read, write and execute. 
 
 Read = 4
+
 Write = 2 
+
 Execute = 1 
 
+Permissions are split into 3 groups:
+- user/owner 
+- group 
+- others 
 
+On a file, permissions will look like this: 
+`-rw-rw-r--`. 
 
+It is split based on which type of user has access to what. 
 
+`-`: The beginning indicates what it is. `-` means it's a file. `-d` means it's a directory. 
+
+`-rw-`: The first 3 characters are permissions for the user/owner of the file and directory. Bere, the user/owner has permissions to read and write but not execute. 
+
+`rw-`
+
+`r--`
 
 
 
