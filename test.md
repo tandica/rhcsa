@@ -55,12 +55,6 @@ WORD>>
 
 File permissions include read, write and execute. 
 
-Read = 4
-
-Write = 2 
-
-Execute = 1 
-
 Permissions are split into 3 groups:
 - user/owner 
 - group 
@@ -73,11 +67,35 @@ It is split based on which type of user has access to what.
 
 `-`: The beginning indicates what it is. `-` means it's a file. `-d` means it's a directory. 
 
-`-rw-`: The first 3 characters are permissions for the user/owner of the file and directory. Bere, the user/owner has permissions to read and write but not execute. 
+`-rw-`: The first 3 characters are permissions for the user/owner of the file and directory. Here, the user/owner has permissions to read and write but not execute. 
 
-`rw-`
+`rw-`: The second set of characters are permissions for the group. In this example, the group has read and write access but not execute. 
 
-`r--`
+`r--` the third set of permissions are for "others", meaning those who are not the user and not in the group. They may be part of other groups. Here, "others" only has read access. 
+
+Another way to represent permissions through the command line is with numbers, such as 777. The three numbers represent the three groups. Each group can have a maximum of 7 as the total value of their permissions. Each type of permission has a different value. 
+
+Read = 4
+
+Write = 2 
+
+Execute = 1 
+
+You can add whatever type of permission a group has and that is equivalent to the number version of their permissions. For instance, the user and group in the previous example had these permissions: `rw-`, which means read and write. The numerical value of this is 6, since r + w = 4.
+
+Default permissions for files is 666. Default permissions for directories is 777. 
+
+`umask` - controls the default permissions set for newly created files and directories by masking certain permissions. It's commonly a value like 022, 002. 
+- Using this we can change the default permissions for files from 666 to something else 
+- Ex: With unmask of 022, permissions is 644. (6-0, 6-2, 6-2)=644. 
+*unmask of 022* - owner has full permissions group and others can read and execute
+*unmask of 022* - owner and group have full permissions and others can read and execute 
+*unmask of 077* - owner has full permissions and user and group have none. 
+
+`chmod +x file.txf` adds "x" permission to ugo (user, group, others) only if those users already had any permissions 
+
+`chown` - change file ownsership 
+- Ex: `chown tandi:tandi file.txt` changes both the user and group owner of the file. 
 
 
 
