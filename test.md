@@ -30,7 +30,34 @@ WORD>>
 **vim** - text editor
         - has 3 modes:
             - normal
-            - editing - use "I" to insert it "a" to append. 
+            - editing - use "i" to insert it "a" to append. 
+            - Ex - quitting mode. Enter it with esc + :wq to save and exit, :q to quit without saving, or :w to save without exiting. 
+
+`mkdir -p` - creates a parent and child directory if the parent doesn't exist 
+
+**File globbing** - using wildcard characters to to match file names or directory names 
+- `*` matches all characters 
+       - Ex: `ls *.txt` lists all files in the directory that have the .txt extension 
+- `?` matches only 1 character
+       - Ex: `ls file?.txt` lists file1.txt and file2.txt but not file10.txt since `?` only matches a single character. 
+- `[]` matches 1 character from a set of characters in braces 
+       - Ex: `ls file[1-7].txt` lists file1.txt to file7.txt 
+- `{}` create a list of options to match 
+       - Ex: `ls file{1,2,7}.txt` lists file1.txt, file2.txt and file7.txt 
+
+`less` - view contents one screen at a time with backward movement. Used to page through longer files. 
+
+`wc` - count number of lines, words and characters in a text file or input stream 
+
+`stat` - prints details about files and file systems 
+
+### File permissions 
+
+File permissions include read, write and execute. 
+
+Read = 4
+Write = 2 
+Execute = 1 
 
 
 
