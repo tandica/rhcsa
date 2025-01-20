@@ -97,5 +97,21 @@ Default permissions for files is 666. Default permissions for directories is 777
 `chown` - change file ownsership 
 - Ex: `chown tandi:tandi file.txt` changes both the user and group owner of the file. 
 
+`chgrp` - change group ownership 
+- Ex: `chgrp tandi file.txt`
+
+**Hard link** - multiple references to the same file without duplicating data
+
+**soft link/symbolic link/symlink** - shortcut to another file/directory 
+- Ex: asg node_modules pointing to multiple repos 
+
+`ln` - used to create links between files 
+
+`newgrp` - add new user group 
+
+`su - user` - switch user with a login shell. Starts in the users home directory
+
+`tar` - archives and compresses fikes 
+- **-czf** for gzip for faster compression
 
 
