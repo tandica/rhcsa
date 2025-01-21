@@ -20,7 +20,7 @@ sudo loginctl enable-linger linda
 
 ### Step 2: Configure Systemd services to run containers with this user.
 
-Create a directory where systemd user files will be created.
+Create a directory where Systemd user files will be created.
 
 ```bash
 mkdir -p ~/.config/systemd/user && cd ~/.config/systemd/user

@@ -45,6 +45,8 @@ podman rm mydb2
 
 Create a directory and set the appropriate permissions inside the user namespace.
 
+> `podman unshare` starts a rootless user namespace for operations which normally require the root user.
+
 ```bash
 mkdir ~/mydb
 
@@ -52,7 +54,6 @@ podman unshare chown 27:27 mydb
 ```
 
 Check the UID mapping
-
 
 ```bash
 podman unshare cat /proc/self/uid_map
