@@ -146,3 +146,19 @@ Permission must be set on bash script files to execute them.
   - 1 : executable programs or shell commands 
   - 5 : file formats and conventions 
   - 8 : sys admin commands 
+  - `man -k` searches for topics related to a given keyword. Useful if you’re not sure of the exact command you need. 
+       - *Ex:* `man -k zip` outputs possible commands for zipping files/directories 
+
+### Env config files 
+
+**/etc/profile** - generic file that is processed by all users on login 
+
+**/etc/bashrc** - file that is processed when subshells are started 
+
+**~/.bash_profile** - file where user-specific login shell variable can be defined 
+
+**~/.bashrc** - user-specific file where subshell variables can be defined 
+
+`mandb` - updates the man database and installs new pages if they exist 
+
+`pinfo` - structured info & detailed explanations for commands. More detailed and easier to naviagte than `man`. test. 
