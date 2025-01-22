@@ -114,4 +114,32 @@ Default permissions for files is 666. Default permissions for directories is 777
 `tar` - archives and compresses fikes 
 - **-czf** for gzip for faster compression
 
+### Shell scripting
 
+**For loop** - iterates and processes a list 
+
+**While loop** - iterates while a condition is true or becomes false
+
+`$?` - variable that can determine success or failure condition
+- **0** means success, anything else is failure
+- Ex: `ls /etc/hosts; echo $?` outputs 0 and `ls /etc/host; echo $?` outputs 2 (error) since the directory path is incorrect
+
+`||` - second command only runs if the first command fails 
+- Ex: `cd dir1 || mkdir dir1` creates the directory if it doesnt exist
+
+**Shebang (#!)** - to be at the top of a script
+- makes a script executable from the CLI, regardless of their location
+- in the shebang, specify the interpretor (bin/bash, etc.)
+
+Permission must be set on bash script files to execute them.
+ - `chmod a+x` applies execute permission regardless of existing permissions 
+ - ./bin is used to store executable files and scripts 
+
+`|` - (pipe) used to run multiple commands at the same time
+- commands are started in parallel
+- Ex: `history | grep cat` 
+
+`cmd --help` - shows how to use a command
+- Ex: `cat --help`
+
+`man` - gives detailed info on how to use a command 
