@@ -142,4 +142,7 @@ Permission must be set on bash script files to execute them.
 `cmd --help` - shows how to use a command
 - Ex: `cat --help`
 
-`man` - gives detailed info on how to use a command 
+`man` - gives detailed info on how to use a command. There are different sections in man for different info. 
+  - 1 : executable programs or shell commands 
+  - 5 : file formats and conventions 
+  - 8 : sys admin commands 
