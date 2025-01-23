@@ -51,3 +51,84 @@ Linux file systems are often organized in different systems like disk partitions
 - tar is just an archive; it doesn't compress unless you put the options (**-czf** for gzip or **-cjf** for bzip)
     - *gzip* offers faster compression and decompression
     - *bzip* saves more space
+
+## Linux File System Hierarchy 
+
+**/** - root, where file system tree starts
+
+**/boot** - contains all files and directories needed to boot the kernel
+
+**/dev** - contains device files used for accessibg physical devices. Essential during a boot 
+
+**/etc** - containes config files used ny programs and services on the server. Essential during boot. 
+
+**/home** - local user home directory 
+
+**/media; /mnt** - has directories used for mounting devices in the file system tree
+
+**/opt** - used for optional packages that may be installed in the server 
+
+**/proc** - proc file system structure gives access to kernel info
+
+**/root** - home directory of the root user 
+
+**/run** - has process and user-specific info created since the last boot 
+
+**/srv** - used for data by services like NFS, FTP, HTTP
+
+**/sys** - used as an interface to different hardware devices that are managed by the linux kernel and associated processes
+
+**/tmp** - has temporary files that may be deleted without warning during the boot process 
+
+**/usr** - contains subdirectories with program files, libraries for these files and documentation about them 
+
+**/var** - contains files that may change in size dynamically, such as log files, mail boxes and spool files 
+
+
+### Do you already know? Questions 
+
+1. **/run** is the default location for temp files. More secure than /tmp because each process has its own env. 
+
+2. **/var** stores files that may grow unexpectedly. 
+
+3. Enhance security with these mount options: 
+    - nodev: mount can't access device files 
+    - noexec: executable files can't be startedfrom the mount
+    - nosuid: denies SUID permissions 
+
+4. `df -hT` shows mounted devices and amount of disk space currently in use. `df` shows file system dism space usage.  
+
+5. `ls -alrt`: -a shows hidden files; -l shows long listing; -r reverts sorting, so new files are at the bottom; -t sorts on modification time. 
+
+6. `cp -a /home/$USER .` copies files, including hidden, from this path into the current directory. 
+
+7. `mv` lets you rename files. 
+
+8. In hard links, there's no different between the first hard link and subsequent ones. Deleting tbe first one will not invalidate the ones created afterwards. 
+
+9. `ln -s /home /tmp` creates symbolic link from /tmp to /home.
+
+10. `tar -u` updates an existing tar archive. 
+
+
+### Review Questions 
+
+1. **/etc** contains config files. 
+
+2. `ls -alt` displays current directory contents, with newest items listed first, including hidden files and long listing. 
+
+3. `mv myfile yourfile` renames "myfile" to "yourfile". 
+
+4. `rm -rf` removes directory and its contents 
+
+5. `ln -s /tmp ~` creates a symbolic link in the home directory to /tmp directory. 
+
+6. `cp /etc/[abc]* .` copies all files that start with a, b and c to the current directory. 
+
+7. `ln -s /etc ~` links /etc to the home directory.  
+
+8. `rm symlink` removed the symbolic link to a directory. 
+    - *Ex:* `rm mylink` removed only the symbolic link to a directory, not the original file or didectory it points to. 
+
+9. `tar -czvf /tmp/etchome.tgz /etc /home`
+
