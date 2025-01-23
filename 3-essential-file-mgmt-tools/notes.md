@@ -130,5 +130,8 @@ Linux file systems are often organized in different systems like disk partitions
 8. `rm symlink` removed the symbolic link to a directory. 
     - *Ex:* `rm mylink` removed only the symbolic link to a directory, not the original file or didectory it points to. 
 
-9. `tar -czvf /tmp/etchome.tgz /etc /home`
+9. `tar -czvf /tmp/etchome.tgz /etc /home` creates a compressed archive of /etc and /home and writes it to /tmp/etchome.tgz. 
+
+10. `tar -xvf /tmp/etchome.tgz -C /etc/passwd` extracts the /etc/passwd directory from the archive. 
+
 
