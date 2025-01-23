@@ -1,7 +1,7 @@
 # Chapter 2 - Essential Tools
 
 `>` is used for redirecting output to a file. 
-Ex: `node server.js > logs.txt` logs the output of the node command in logs.txt. 
+*Ex:* `node server.js > logs.txt` logs the output of the node command in logs.txt. 
 
 `>>` is used for redirecting output to the end of a file, appending it to the bottom of already existing data. 
 
@@ -10,7 +10,7 @@ Ex: `node server.js > logs.txt` logs the output of the node command in logs.txt.
 `&>` and `&>>` works the same way, but for **both** output and error messages. 
 
 **Heredocs** - allows multi line input for scripts. Must end with the same keyword. 
-Ex: cat > story.txt <<WORD 
+*Ex:* cat > story.txt <<WORD 
         Line 1...
         Line 2...
 WORD>>
@@ -37,13 +37,13 @@ WORD>>
 
 **File globbing** - using wildcard characters to to match file names or directory names 
 - `*` matches all characters 
-       - Ex: `ls *.txt` lists all files in the directory that have the .txt extension 
+       - *Ex:* `ls *.txt` lists all files in the directory that have the .txt extension 
 - `?` matches only 1 character
-       - Ex: `ls file?.txt` lists file1.txt and file2.txt but not file10.txt since `?` only matches a single character. 
+       - *Ex:* `ls file?.txt` lists file1.txt and file2.txt but not file10.txt since `?` only matches a single character. 
 - `[]` matches 1 character from a set of characters in braces 
-       - Ex: `ls file[1-7].txt` lists file1.txt to file7.txt 
+       - *Ex:* `ls file[1-7].txt` lists file1.txt to file7.txt 
 - `{}` create a list of options to match 
-       - Ex: `ls file{1,2,7}.txt` lists file1.txt, file2.txt and file7.txt 
+       - *Ex:* `ls file{1,2,7}.txt` lists file1.txt, file2.txt and file7.txt 
 
 `less` - view contents one screen at a time with backward movement. Used to page through longer files. 
 
@@ -87,7 +87,7 @@ Default permissions for files is 666. Default permissions for directories is 777
 
 `umask` - controls the default permissions set for newly created files and directories by masking certain permissions. It's commonly a value like 022, 002. 
 - Using this we can change the default permissions for files from 666 to something else 
-- Ex: With unmask of 022, permissions is 644. (6-0, 6-2, 6-2)=644. 
+- *Ex:* With unmask of 022, permissions is 644. (6-0, 6-2, 6-2)=644. 
 *unmask of 022* - owner has full permissions group and others can read and execute
 *unmask of 022* - owner and group have full permissions and others can read and execute 
 *unmask of 077* - owner has full permissions and user and group have none. 
@@ -95,15 +95,21 @@ Default permissions for files is 666. Default permissions for directories is 777
 `chmod +x file.txf` adds "x" permission to ugo (user, group, others) only if those users already had any permissions 
 
 `chown` - change file ownsership 
-- Ex: `chown tandi:tandi file.txt` changes both the user and group owner of the file. 
+- *Ex:* `chown tandi:tandi file.txt` changes both the user and group owner of the file. 
 
 `chgrp` - change group ownership 
-- Ex: `chgrp tandi file.txt`
+- *Ex:* `chgrp tandi file.txt`
 
 **Hard link** - multiple references to the same file without duplicating data
+- must exist on the same devices (partition, LVM)
+- can't be used for directories and access is removed when hard link (file) is removed
+- links directly to *inode*
 
 **soft link/symbolic link/symlink** - shortcut to another file/directory 
-- Ex: asg node_modules pointing to multiple repos 
+- *Ex:* asg node_modules pointing to multiple repos 
+- links to the 'name' of the file
+- can link between devices and directories
+- when original file is moved, link becomes invalid
 
 `ln` - used to create links between files 
 
@@ -122,10 +128,10 @@ Default permissions for files is 666. Default permissions for directories is 777
 
 `$?` - variable that can determine success or failure condition
 - **0** means success, anything else is failure
-- Ex: `ls /etc/hosts; echo $?` outputs 0 and `ls /etc/host; echo $?` outputs 2 (error) since the directory path is incorrect
+- *Ex:* `ls /etc/hosts; echo $?` outputs 0 and `ls /etc/host; echo $?` outputs 2 (error) since the directory path is incorrect
 
 `||` - second command only runs if the first command fails 
-- Ex: `cd dir1 || mkdir dir1` creates the directory if it doesnt exist
+- *Ex:* `cd dir1 || mkdir dir1` creates the directory if it doesnt exist
 
 **Shebang (#!)** - to be at the top of a script
 - makes a script executable from the CLI, regardless of their location
@@ -137,17 +143,17 @@ Permission must be set on bash script files to execute them.
 
 `|` - (pipe) used to run multiple commands at the same time
 - commands are started in parallel
-- Ex: `history | grep cat` 
+- *Ex:* `history | grep cat` 
 
 `cmd --help` - shows how to use a command
-- Ex: `cat --help`
+- *Ex:* `cat --help`
 
 `man` - gives detailed info on how to use a command. There are different sections in man for different info. 
   - 1 : executable programs or shell commands 
   - 5 : file formats and conventions 
   - 8 : sys admin commands 
   - `man -k` searches for topics related to a given keyword. Useful if you’re not sure of the exact command you need. 
-       - *Ex:* `man -k zip` outputs possible commands for zipping files/directories 
+       - **Ex:** `man -k zip` outputs possible commands for zipping files/directories 
 
 ### Env config files 
 

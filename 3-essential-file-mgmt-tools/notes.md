@@ -28,9 +28,26 @@ Linux file systems are often organized in different systems like disk partitions
 
 `cp -a` copy with *archive mode* to cooy permissions as well 
 
-3 ways to copy hidden files:
-- `co /dir/.*/tmp/ .` copies all files in /dir that’s start with a period. Use **-R** if any errow. 
+**3 ways to copy hidden files:**
+- `cp /dir/.*/tmp/ .` copies all files in /dir that’s start with a period. Use **-R** if any errow. 
+- `cp -a /dir/` copies entire dorectory to the current path. Creates a subdirectory w the same tmam 
+- `cp -a cp -a /dir/` -  copies all filss to the current directory 
 
-`cp -a /dir/` copies entire dorectory to the current path. Creates a subdirectory w the same tmam 
+**Inode** : where linux stores administrative data about files like:
+- permissions
+- file owners 
+- creation, access & modification date
+- data block where file contents are stored
 
-`cp -a cp -a /dir/ -  copies all filss to the current directory 
+`ln` - create links 
+- `ls -l` - reveals if a file is a link if the first character is an l 
+
+`tar` - used for managing archives
+- `tar -cvf`: create archive with verbose 
+- `tar -rvf`: add a file to an archive
+- `tar -uvf`: update existing archive
+- `tar -xvf`: extract contents of an archive`
+    - extracts in current directory, unless specified with **-C** option 
+- tar is just an archive; it doesn't compress unless you put the options (**-czf** for gzip or **-cjf** for bzip)
+    - *gzip* offers faster compression and decompression
+    - *bzip* saves more space
