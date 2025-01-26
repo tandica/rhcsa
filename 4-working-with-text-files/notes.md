@@ -26,3 +26,17 @@
     - move utility is ended when the file end is reached unless you use -p option
 
 `tac` - displays contents of file in reverse of cat so first lines are at the bottom 
+
+`tail -f var/log/messages` - shows real time messages written to thwe log file 
+    - **-f** refreshes display as new lines are added to the file
+
+**grep options**
+
+- -i: matches upper and lower case letters
+- -v: shows lines that **do not** contain the character
+- -r: searches files in current directory and all subdirectories
+- -e: search for files matching more than one regex
+
+### Do you already know? Questions
+
+1. 
