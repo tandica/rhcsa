@@ -43,7 +43,6 @@ To tell Systemd to stop the processes, you can:
 - only differences are considered
 
 
-
 ### Do you already know? Questions
 
 1. A physical screen you are looking at and working from is a **console**.
@@ -65,3 +64,26 @@ To tell Systemd to stop the processes, you can:
 9. **ForwardX11** yes option in */etc/ssh/ssh_config* enables support for graphical applications through SSH.
 
 10. `ssh-copy-id` copies public key to the remote server. 
+
+
+### Review Questions
+
+1. A **console** is the physical screen you're looking at and working on.
+
+2. **ctrl + alt + F2** switches from a text based login/non-graphical to a graphical interface.
+
+3. `w` or `who` shows all users that have a terminal screen open to a linux server.com
+
+4. */dev/pts/0* is the device name used by the first SSH session opened to the server.
+
+5. `ssh -v` gets detailed info on what ssh is doing when logging in. (verbose).
+
+6. `ssh -X` enables support for grahical apps, with security restriction as it's meant to connect to untruster remote servers. `ssh -Y` does the same thing but it bypasses the security restrictions, so it's meant to work with only trusted remote servers. 
+
+7. *~/.ssh/config* is the config file needed to be edited to modify SSH client settings.
+
+8. `sftp lisa@server2` then `put /etc/hosts /tmp` OR `scp /etc/hosts lisa@server2:/tmp` copies the /etc/hosts file to the directory /tmp on server2 with the username lisa.
+
+9. For remote users who want to log in using key-based auth, the public keys are stored in *~/.ssh/authorized_keys*.
+
+10. **ssh-keygen** generates a pair of public/private keys.
