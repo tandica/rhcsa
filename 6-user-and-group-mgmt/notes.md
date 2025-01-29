@@ -120,11 +120,24 @@ Properties that can be set from this file include:
 
 ### Review Questions 
 
-1. The defaukt parameter that can be changed to expand the lifetime of a sudo token is **timestamp_timeout**. It id set in the default config */etc/sudoers*. 
+1. The default parameter that can be changed to expand the lifetime of a sudo token is **timestamp_timeout**. It id set in the default config */etc/sudoers*. 
 
-2. 
+2. The config file where sudo is defined is in */etc/sudoers*.
 
+3. To modify the sudo config file, use `visudo` or an editor to create sudo config files in */etc/sudoers.d*.
 
+4. If there was an error and sudo doesn't work, assuming there is no password set for root, use `pkexec visudo` to run `visudo` without sudo privileges. 
 
+5. 
+
+6. Making a user part of the **wheel** group grants access to all admin commands through sudo. 
+
+7. Use `vigr` to modify */etc/group* manually.
+
+8. `passwd` and `chage` can be used to change password info. 
+
+9. */etc/shadow* is where user passwords are stored. 
+
+10. */etc/group* is where group account are stored. 
 
 
