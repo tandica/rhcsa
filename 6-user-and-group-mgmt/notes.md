@@ -32,6 +32,63 @@ To use pipes in a sudo command, use this format:
 
 */etc/skel* is the skeleton directory that is copied by default to the new user home directory, when creating a new user.
 
+Set/change the default shell using **-s** in `useradd` or `usermod`. 
+  *Ex:* `useradd banni -s /sbin/nologin`
+
+`echo <password> | passed --stdin <user>` changes a users password to what is set in the **echo** stdout
+
+`passwd <user>` changes user password without showing it in the command 
+
+`usermod` modifies user properties and manages group membership. 
+
+With the `useradd` command, default values are set in 2 config files: */etc/login.defs* and */etc/default/useradd*. 
+
+*/etc/login.defs* file is used by many commands and sets up appropriate environment for the user. 
+Properties that can be set from this file include:
+  - MOTD_FILE: defines tbe file that should be used as the message of the day file 
+  - ENV_PATH: defines path variables 
+  - PASS_MAX_DAYS, PASS_MIN_DAYS, PASS_WARN_AGE: default oassword expiration properties 
+  - UID_MIN: first uid to use when creating new users
+  - CREATE_HOME: imdicates whether or not to create a home directory for new users
+
+`chage` and `passwd` manages password properties. 
+
+`passwd -n 30 -w 3 -x 90 tandi`:
+  - **-n** minimal usage of 30 days
+  - **-w** warning given 3 days before expiry 
+  - **-x** set expiry after 90 days 
+
+`chage -E 2025-12-31 tandi`:
+  - **-E** sets expiry to specific date for passeord 
+
+**User environment** - when a user logs in, an environment is created which consists of variables that determine how the user works. 
+  *Ex:* $PATH variable 
+
+*/etc/profile* is used for default aettings for all users when starting a login shell 
+
+**Primary group** - every user is a primary group member 
+  - a user can have only one primary group
+  - user's primary group membership is defined in */etc/passwd*
+  - the group is stored in */etc/group*
+
+**Secondary group** - users can be a member of one or more secondary groups, in addition to their primary group. 
+
+`groupadd` adds a group
+  - *Ex:* `groupadd bannis`
+  - **-g** specifies a group id when creating a group
+
+`groupmod` manage group properties 
+  - can also use `vigr` to edit the properties in */etc/group*
+
+`lid` displays a users groups or a groups users 
+  - *Ex:* `lid tandi` lists all grouosbthe user is in
+  - *Ex:* `lid -g sales -l` lists all members pf the sales group 
+
+`usermod -aG` adds users to groups which will be their secondary group(s) 
+
+`groupmems` lists users who are members of a specified group 
+  - *Ex:* `groupmems -g sales -l`
+
 
 ### Do you already know? Questions
 
@@ -59,3 +116,15 @@ To use pipes in a sudo command, use this format:
 9. `id` and `group` commands can be used to list all groups a user is a member of. 
 
 10. When */etc/nologin* exists, only a root user will be able to login.
+
+
+### Review Questions 
+
+1. The defaukt parameter that can be changed to expand the lifetime of a sudo token is **timestamp_timeout**. It id set in the default config */etc/sudoers*. 
+
+2. 
+
+
+
+
+
