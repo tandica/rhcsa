@@ -36,9 +36,48 @@ ugo owners:
     - others - o
     - all - a
 You can elemintate this field if you want to apply the changes to all users: `chmod +x myfile.txt`
-    2. Use an operator to add or remove permissions
+    2. Use an operator to add or remove (+ or -) permissions
     3. Use  r, w or x to specify read, write ior execute permissions. 
+    - You can use more complex commands in recursive mode. *Ex:* `chmod g+w,o-r myfile` adds write permission for group and removes read permission for others. 
 
+**Execute permission**
+    - if you’re using recursion (-R), *always* use uppercase **X** so execute is applied to the subdirectories, but not the files. 
+    - if you use lowercase **x** recursively, it can cause security issues with execute since all users will be able to see the files and execute them. 
+
+**Advanced permissions*
+1. **SUID**
+    - Set user id 
+    - useful for very specific situations, but dangerous 
+    - if applied incorrectly, root permissions are given away
+    - *Ex:* 
+
+2. **SGID** 
+    - Set group id
+    - if applied on an executable file, it gives the user who executes the file the same permissions as the group owner
+    - Does the same thing as SUID 
+    - all files created to a directory oath with these permissions set will automatically have the specified group owner as the owner 
+    - *Ex*!
+
+3. **Sticky bit**
+    - Protects files against accidental deletion when multiple users have write permissions in the same directory 
+    - Users can inly delete files they own/created 
+    - applied as the default to /tmp directory 
+    - users can delete files only if they have root access, they own the file and thry own the directory the file is in
+    - *Ex:*
+
+To apply SUID, SGID and Sticky Bit, use `chmod`. 
+
+There is absolute and relative mode but relative mode is safer. 
+
+
+To set default missions, use ACLs or `umask`. 
+
+**umask** works by automatically subtracting its value brom the 777 permissions setting. For example, if umask is 002, and the default permissions is 777,
+the new permissions would be 755 (7-0,7-2,7-2). 
+
+(defaultpermissions) - (umaskvalue) = new permissions 
+
+**Attributes** are anothrr way to secure files. 
 
 
 
