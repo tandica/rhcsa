@@ -78,7 +78,7 @@ the new permissions would be 755 (7-0,7-2,7-2).
 (defaultpermissions) - (umaskvalue) = new permissions 
 
 **Attributes** are anothrr way to secure files. 
-
+    - work regardless of which user acessesses the file. 
 
 
 ### Do you already know? Questions 
