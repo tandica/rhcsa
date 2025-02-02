@@ -1,4 +1,4 @@
-# Chapter 7: Permissions
+# Chapter 7: Permissions Management
 
 ugo owners:
 - user
@@ -69,7 +69,6 @@ To apply SUID, SGID and Sticky Bit, use `chmod`.
 
 There is absolute and relative mode but relative mode is safer. 
 
-
 To set default missions, use ACLs or `umask`. 
 
 **umask** works by automatically subtracting its value brom the 777 permissions setting. For example, if umask is 002, and the default permissions is 777,
@@ -77,9 +76,25 @@ the new permissions would be 755 (7-0,7-2,7-2).
 
 (defaultpermissions) - (umaskvalue) = new permissions 
 
-**Attributes** are anothrr way to secure files. 
-    - work regardless of which user acessesses the file. 
+**Attributes** are another way to secure files. 
+    - works regardless of which user accesses the file
+    - different settings in a file which can be set. *Ex:* ensures file access time isn't modified, ensures files are written to the disk immediately and not the cache, ensures file can't be changed (is immutable)
 
+`chattr` - add or remove attributes to a file. 
+- *Ex:* Add: `chattr +s myfile`. Remove: `chattr -s myfile`
+
+`lsattr` - list attributes of a file
+
+|            | # Value | Relative Value | Files                                               | Directories                                          |
+|------------|---------|----------------|-----------------------------------------------------|------------------------------------------------------|
+| SUID       | 4       | u+s            | User executes file with  permissions of file owners | Nothing                                              |
+| SGID       | 2       | g+s            | User executes file with  permissions of group owner | Files created in directory  get the same group owner |
+| Sticky bit | 1       | +t             | Nothing                                             | Prevents users from  deleting other users files      |
+
+
+Absolute mode is with numbers as above "# value. 
+
+In `chmod 2755 /dir`, **2** is the SGID and the other 3 numbers are regular permissions. 
 
 ### Do you already know? Questions 
 
@@ -110,6 +125,25 @@ the new permissions would be 755 (7-0,7-2,7-2).
 10. `lsattr` checks the attributes of a file/directory. *Ex:* `lsattr myfile`. 
 
 
+### Review Questions
 
+1. To set a group owner with `chown` do `chown :groupname file` or `chown .groupname file`.
 
+2. `find / -user tandi` finds all files owned by user **tandi**.
+
+3. The following commands apply r, w, x permissions for user and group, and no permissions for others. 
+
+4. `chmod +x myfile` adds execute permission to a file in relative mode, so all users are able to execute it.
+
+5. `chmod g+s /dir` ensures group ownership of all new files will be created under the group owner of the directory.
+
+6. `chmod +t /dir` adds sticky bit to /dir. Ensures users can only delete files they own or files in a directory they are owner of.
+
+7. `umask 027` sets umask so "others" don't have any permissions and group has read and execute permissions.
+
+8. `chattr +a myfile` adds attribute to ensure the file can't be deleted by accident.
+
+9. `find / -perm +4000` searches for files that have the SUID permissions set.
+
+10. `lsattr myfile` checks the sttributes of a file.
 
