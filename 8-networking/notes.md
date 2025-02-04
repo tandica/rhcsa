@@ -1,4 +1,4 @@
-# Chapter 8 Notes: Networking 
+# Chapter 8: Networking 
 
 **host** - a server providing services on the network 
 
