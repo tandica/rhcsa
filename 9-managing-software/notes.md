@@ -8,7 +8,11 @@ Repository: online software packages.
 
 `dnf config manager --add-repo=file:///repo/BaseOS` use the local path if you copied contents of the RHEL installation disk to /repo. Since it's located on the disk, you don't need a URL. Just reference the local path.
 
+** **When using `dnf config-manager`, you must edit the repo file */etc/yum.conf.d* to include the "gpgcheck=0 line".**
 
+*/etc/pki* directory store the subscription and entitlement sertifications for Red Hat products and registered accounts.
+
+You need to be able to tell the server what repo to use. 
 
 ### Do you already know? Questions
 
