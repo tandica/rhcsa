@@ -12,7 +12,58 @@ Repository: online software packages.
 
 */etc/pki* directory store the subscription and entitlement sertifications for Red Hat products and registered accounts.
 
-You need to be able to tell the server what repo to use. 
+You need to be able to tell the server what repo to use.
+
+Packages are often signed with a GPG key for security purposes, especially online repos. It makes it possible to chrck if the package was altered since the repo owner provided them. If the repo is hacked, the GPG key won't match and the `dnf` command will complain. 
+
+`dnf repolist` verifies availability of repos 
+
+`dnf search` searches packages based on a given string in package name or summary. It searches online then downloads the latest findings metadata. Then, it looks for in package name/summary for given string. 
+
+`dnf search all` does the same as above except a more thorough search cuz it searches in description as well. 
+
+`dnf provides` and `dnf whatprovides` looks for packages of a specific filename. *Ex:* `dnf provides */Containerfile`. 
+
+`dnf info` gets info about a peckage before you install it. *Ex:* `dnf info nmap`.
+
+`dnf list` shows list of packages available. Use with the package name to show version and if there are new versions. *Ex:* `dnf list kernel`. 
+
+`dnf list installed` shows packages installed in the server already. 
+
+**Package group** refers to a collection of related software packages bundled together to fulfill a common purpose. It makes it easy to install packages commonly used together. 
+
+`dnf group list` lists all group packages. 
+
+`dnf group install` installs all packages from a group. 
+
+`dnf history` shows the history of the use of `dnf` command. Each command that has run has an id. You can undo things based on that id. *Ex:* `dnf history undo 2`. 
+
+**Profile** is a list of packages installed together for a particular use case. You can select the profile you want to use. 
+
+**Module**: a set of rpm packages that belong together and adds features to package management. It's organized around specific versions of an OS and can have one or more application streams. 
+
+**Stream** allows for different versions of packages to be offered through the same repos. It contains one specific version and uodates are provided for a specific stream. 
+
+`rpm` is the old command for downloading packages. It’s not recommended now, but can still be used for getting info about packages. You can querY RPM db or package files. 
+
+`rpm -qf`uses file name as an argument to find the specific RPM package a file belongs to. 
+
+`rpm -ql` uses RPM db to provide a list of all files in an RPM package. 
+
+`rpm -qi` uses RPM db provide package info. Same as yum.info. 
+
+`rpm -qd` uses RPM db to show all documentation available in the package 
+
+`rpm qc` uses RPM db to show all config file that are available in the package. 
+
+`rpm -q --scripts` uses RPM db to show scripts used in the package. More useful if used with **-qp**. 
+
+`rpm -qp` queries previously listed options using RPM package file. Tells you what's in thenpackage before you install. 
+
+`rpm -qR` shows dependencies for a specific package 
+
+
+
 
 ### Do you already know? Questions
 
