@@ -62,7 +62,19 @@ Packages are often signed with a GPG key for security purposes, especially onlin
 
 `rpm -qR` shows dependencies for a specific package 
 
+`rpm -V` shows which parts of a specific package have been changed since installation
 
+`rpm -Va` verifies all installed packages and shows which parts of a package have changed since installation. Good for package integrity check. 
+
+`rpm -qa` lists all packages installed on the server. 
+
+**Mount** 
+- similar to plugging a USB drive into the computer 
+- makes content accessible to the system 
+- connecting a storage drive to a specific folder in your file system
+- imagine your file system as a big office building 
+    - storage devices like CDROM is a separate room with files 
+    - "Mounting" is creating a door that connects that room to the office building 
 
 
 ### Do you already know? Questions
@@ -86,3 +98,27 @@ Packages are often signed with a GPG key for security purposes, especially onlin
 9. `rpm -qf` find which RPM package a specific file belongs to.
 
 10. `rpm -qp --scripts packagename.rpm` tells you if there are scripts in an RPM package you downloaded. **-p** queries the package file.
+
+
+### Review Questions
+
+1. `createrepo` command allows you to transform a directory into a repository once it has a collection of RPM packages. 
+
+2. To point a repo to a link, you need the **[label] name** and **baseurl**. 
+
+3. `dnf repolist` confirms if a repo is available. 
+
+4. `dnf provides */useradd` allows you to search the RPM package with the file "useradd". 
+
+5. `dnf group list` shows the name of dnf groups. `dnf group info "Security Tools"` shows the content of a group. 
+
+6. `dnf module enable php:5.1` allows for a certain version of PHP psckage to be installed without actually installing it. 
+
+7. `rpm -q --scripts packagename` allows you to check if an installed package contains dangerous scripts. `rpm -qp --scripts packagename.rpm` allows you to chrck if a package which is *not yet installed* has dangerous scripts. 
+
+8. `rpm -qd packagename` shows documentation in an RPM package. 
+
+9. `rpm -qf /pathtofile` shows which RPM package a file comes from. 
+
+10. `. repoquery` queries software from a repo. 
+
