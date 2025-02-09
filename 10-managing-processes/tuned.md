@@ -1,4 +1,4 @@
-# Using tunes
+# Using tuned
 ## Exercise 10-4
 How to use tuned.
 
