@@ -1,9 +1,9 @@
 # Chapter 13: Configuring Logging 
 
 There sre 3 approaches to writing logs:
-- systemd-journald: drfault for logging 
-- direct write: some services write logs directly to lig files
-- rsyslog
+- **systemd-journald:** drfault for logging 
+- **direct write**: some services write logs directly to lig files
+- **rsyslog**
 
 `systemd-journald` provides advanced log management. Collects messages from the kernel, boot processes and services and writes these messages to an event journal.
 
@@ -55,7 +55,7 @@ Search options **/** and **?** work in journalctl. Type **G** to go to the end o
 
 `journalctl -o verbose` shows very detailed info that helps with debugging. 
 
-journalctl time ranges:
+**journalctl time ranges:**
 - for a specific time period, use `--since` or/and `--until`
 - time parameter format: **YYYY-MM-DD hh:mm:ss**
 - can use *yesterday, today* and *tomorrow* as parameters 
@@ -63,7 +63,7 @@ journalctl time ranges:
 
 `journalctl -n 20` shows the last 20 lines of the journal
 
-journalctl options:
+**journalctl options:**
 - **-f** shows the end of the journal and adds real time messages as they are generated. 
 - **-b** shows boot log
 - **-x** adds additional explanation to the messages shown which makes it easier to understand
@@ -84,6 +84,8 @@ The */run* directory is used for current process stats only, meaning the journal
 
 **rsyslog** allows you to manage where and how info should be written in with the */etc/rsyslog.conf* file
 
+<br/>
+
 **rsyslog.conf file sections** 
 
 - **facility**
@@ -93,7 +95,71 @@ The */run* directory is used for current process stats only, meaning the journal
         - this needs to be configured for the specific service. Need to add a rule in rsyslog.conf
 - **priority**
     - defines the severity of the message that needs to be logged
+    - when you specify a priority, all messages with that priority and higher priorities will be logged
+    - *Ex:* err, debug, info, panic, crit, etc.
+- **Destination**
+    - defines where the messages should be written; a path
+    - *Ex:* /var/log/messages
+
+** **`man 5 rsyslog.conf` and `man rsyslog.conf` lists all facilities and priorites of rsyslog.**
+
+<br/>
+
+To prevent syslog msgs from filling up your system, you can **rotate** them.
+- When a threshold has been reached, the old log file is closed and a new one is created.
+- When a log file is rotated, the old file is copied to a file that has the rotation date on it
+- 4 old log files like this are kept on the system and anything after is removed automatically.
+- most important setting in */etc/logrotate.conf* is how often it says to rotate the files (weekly, etc.)
+
+<br/>
 
 
+### Do you already know? Questions
 
+1. systemd-journald is **not** a replacement of rsyslogd.
+
+2. Authentication related messages are written to */var/log/secure*.
+
+3. */var/log/audit/audit.log* stores info relating to SELinux.
+
+4. */var/log/journal* stores systemd journal persistently.
+
+5. To make systemd journal persistent, create the **/var/log/journal** file (`mkdir /var/log/journal`), set the appropriate permissions (`chown root:systemd-journal /var/log/journal`, `chmod 2755 /var/log/journal`), then restart the journal (`systemctl restart systemd systemd-journal-flush`).
+
+6. `systemctl restart systemd-journal-flush` updates systemd journal to use the updated configuration.
+
+7. `/etc/rsyslog.conf` is the rsyslogd config file.
+
+8. **:modulename:** is the format for rsyslogd modules.
+
+9. **local0-local7** can be used to configure services that don't use rsyslog by default. 
+
+10. The logrotate service can be configured to maximize a file size of a log to 10mb. This can be done in its corresponding config file. For example, */etc/logrotate.d/example* is for */var.log/example.log*.
+
+
+### Review Questions
+
+1. */erc/rsyslog.conf* is used to configure rsyslogd.
+
+2. */var/log/secure* contains logs and messages relating to authentication.
+
+3. If not configured, log files are rotated away by default after 5 weeks - one week for the currently file and 4 weeks for old files. 
+
+4. `logger -p user.notice "text"` logs a msg fromt he command line to the user facility, with the notice priority.
+
+5. `*.info /var/log/messages.info` writes all messages with a priority of "info" to that file.
+
+6. The */etc/systemd/journald.conf* file can be configured to grow beyond its default size. 
+
+7. `journalctl -xb` shows boot log messages (-b) with an explanation (-x).
+
+8. `journalctl _PID=1 --since 9:00:00 --until 15:00:00` shows all journald for PID 1 between 9am and 3pm. The _ is needed so the system knows the real process id to look at.
+
+9. `journalctl -u sshd` shows all messages that were logged for the sshd service. You can use `systemctl status sshd` to see the last few lines of the logs. 
+
+10. **To make the systemd jounral persistent:**
+- `mkdir /var/log/journal`
+- `chown root:systemd-journal /var/log/journal`
+- `chmod 2755 /var/log/journal`
+- `systemctl restart systemd systemd-journal-flush`
 
