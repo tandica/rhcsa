@@ -49,6 +49,50 @@ Journal can be examined using `journalctl`.
 - loss can be filtered based on services, time range or priorities
 - automatically uses `less` pager 
 
+`journalctl -f` shows last/end of log msgs where new lines were added automatically. 
+
+Search options **/** and **?** work in journalctl. Type **G** to go to the end of the msgs. 
+
+`journalctl -o verbose` shows very detailed info that helps with debugging. 
+
+journalctl time ranges:
+- for a specific time period, use `--since` or/and `--until`
+- time parameter format: **YYYY-MM-DD hh:mm:ss**
+- can use *yesterday, today* and *tomorrow* as parameters 
+- *Ex:* `journalctl --since yesterday`
+
+`journalctl -n 20` shows the last 20 lines of the journal
+
+journalctl options:
+- **-f** shows the end of the journal and adds real time messages as they are generated. 
+- **-b** shows boot log
+- **-x** adds additional explanation to the messages shown which makes it easier to understand
+- **-u** filter log msgs for a specific unit. *Ex:* `journalctl -u sshd`. 
+- **-p** filters messages with a specific priority. *Ex:* `journalctl -p warn` displays all warning logs 
+
+Journal is stored in **/run/log/journal**. 
+The */run* directory is used for current process stats only, meaning the journal gets wiped when a system reboots. To make the journal persistent, store it in **/var/log/journal**.
+
+**systemd-journald**
+- the logging daemon that gathers and manages logs 
+- runs as a background process
+- can be managed with `systemctl`
+
+**systemd-journal**
+- utility for querying, viewing and interacting with logo
+- provides tools like `journalctl` to access and analyze log data 
+
+**rsyslog** allows you to manage where and how info should be written in with the */etc/rsyslog.conf* file
+
+**rsyslog.conf file sections** 
+
+- **facility**
+    - a category of info that is logged which can't be extended or changed 
+    - *Ex:* cron, kernel, user, etc. 
+    - **local 0-7**: if services don’t have their own rsyslog facility and need to log messages to a specific file, they can use this. 
+        - this needs to be configured for the specific service. Need to add a rule in rsyslog.conf
+- **priority**
+    - defines the severity of the message that needs to be logged
 
 
 
