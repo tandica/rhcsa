@@ -36,3 +36,20 @@ Linux uses the binary number (Mib, Kib, etc.) for the storage amount standard.
 - if you need more than 4 storage allocations units, it might be better to use LVM
 - if you have a completely new disk, it might be better to create GPT partitions
 
+** If fdisk prints a msg that it could't update the partition table, use the `partprobe` command to manually update the partition table, then `lsblk` to verify changes. 
+
+`partprobe` is used to inform the OS kernel of partition table changes without needing to reboot. *Ex:* `partprobe /dev/nvm0n2` notifies the kernel of the update.
+
+** **Never use *gdisk* on a disk that has been formatted with *fdisk* and already contains *fdisk* partitions!!! It will mess the computer up!** *gdisk* detects that MBR is present and it will try to convert it to gdisk which will cause the computer not to boot. 
+
+Revelvant GPT partition types:
+- 8200: linux swap
+- 8300: linux file system
+- 8e00: linux LVM 
+
+These are the same partition types in MBR.
+
+`parted` can be used to create partitions but lacks support for advanced features. 
+
+A partition by itself is not useful, it needs a **file system**. 
+
