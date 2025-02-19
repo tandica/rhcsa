@@ -86,6 +86,57 @@ File system issues
 
 `exec /usr/lib/systemd/systemd` changes the current PID1 to be Systemd.
 
+#### Boot phase config & troubleshoot
+
+1. POST
+- hardware config (f2, esc, f10)
+- fix by replacing hardware
+
+2. Select bootable device 
+- BIOS/UEFI config or boot menu
+- fix by repkacing hardware or use rescue system
+
+3. Loading the boot loader 
+- configure with `grub2-install` and edit */etc/default/grub*
+- fix by using GRUB 2 boot prompt, edit */etc/default/grub* and save changes with `grub2-mkconfig > /boot/grub2/grub.conf`
+
+4. Loading the kernel
+- configure by editing GRUB and */etc/dracut.conf*
+- fix the same as above
+
+5. Start /sbin/init
+- config - compiled into initramfs
+- fix by using the `init=` kernel boot argument and `rd.break` kernel boot argument
+
+6. Processing initrd.target
+- config - compiled into initramfs
+- fix by using `dracut` to create a new initramfs
+
+7. Switch to root file system
+- configure by editing */etc/fstab*
+- fix by applying (mount) changes to */etc/fstab*
+
+8. Running the default target
+- configure by using `systemctl set-default`
+- fix by starting the rescue target as a kernel boot argument 
+
+#### How to reset the root password 
+
+1. Type **e** in the GRUB 2 menu on system boot.
+
+2. Add `init=/bin/bash` to the end of the line that loads the kernel and boot with **ctrl + x**. 
+
+3. When the root shell is open, type `mount -o remount,rw /` to get read/write access to the root file system. 
+
+4. Change the password with `passwd`. 
+
+5. Type `touch /.autorelabel` to ensure the SELinux security labels are set correctly. 
+
+6. Start the system "normally" with `exec /usr/lib/systemd/systemd`. This makes Systemd the PID 1, which allows you to reboot. Otherwise, the PID 1 is set to /bin/bash and you can't run the reboot command in this. 
+
+7. Use `reboot` and verify you can log in as root. 
+
+
 <br />
 
 ### Do you already know? Questions
