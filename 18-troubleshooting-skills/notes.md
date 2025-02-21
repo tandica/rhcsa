@@ -47,7 +47,7 @@ To access thee boot prompt, look for the GRUB 2 menu that briefly shows up durin
 - Type **c** to enter a full GRUB command prompt
 - After entering boot options, use **crtl + x** to start the kernel with these options
   - These changes are not persistent
-  - If you want persistent changes, modify */etc/default/grub* config file and write the changes with `grub2-mkconfig > /boot/grub2/grub.cfg`
+  - If you want persistent changes, modify */etc/default/grub* config file and write the changes with `grub2-mkconfig -o /boot/grub2/grub.cfg`
 
 **rd.break**
 - stops the boot procedure in the intramfs stage
@@ -180,6 +180,6 @@ File system issues
 
 8. To make the root file system writable again, use `mount -o remount,rw /`.
 
-9. To save changes to the GRUB 2 bottloader, use `grub2-mkconfig > /boot/grub2/grub.cfg`.
+9. To save changes to the GRUB 2 bottloader, use `grub2-mkconfig -o /boot/grub2/grub.cfg`.
 
 10. To enter the most minimal troubleshooting made on a system where you don't know the root pw, use `systemd.unit=emergency.target`.
