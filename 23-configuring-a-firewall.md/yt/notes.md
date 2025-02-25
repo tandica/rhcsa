@@ -63,6 +63,26 @@ Only active zones have interfaces attached to them. If an interface is assigned 
 
 When you remove an interface in a non-default zone, it becomes attached to the active default zone 
 
+Use **--change-interface** to set the interface for a zone. --add-interface may not be as smart as the change option. 
+
+You can use `nmcli` to change the interface of a zone:
+
+`nmcli con mod "connection name" connection.zone public`
+
+You can create custom zones. 
+
+how to block icmp traffic: 
+
+look at all the icmp types: `firewall-cmd --get-icmptypes`. 
+
+choose the one you want to block: 
+ 
+`firewallcmd --add-icmp-block=echo-request --permanent` 
+
+ 
+`firewallcmd --add-icmp-block-inversion --permanent` blocks all icmp traffic so that you can allow a few of them. All icmp traffic is allowed by drfault so if you block a few of them then run this inversion command, it will allow the few you initially blocked and block the rest. 
+
+
 <br >
 
 ## CSG
