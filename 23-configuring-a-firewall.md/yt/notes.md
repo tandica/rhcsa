@@ -25,6 +25,44 @@ If a firewall is masked and marked as not running, unmask it with `systemctl unm
 
 `firewall-cmd --get-active-zones` lists all active zones. A zone is "active" only if an interface is assigned to it. 
 
+`firewall-cmd --list-ports` lists ports that are enabled. 
+
+`firewall-cmd --remove-service={bitcoin,cockpit,telnet,smtp}` remives multiple services at once from a zone 
+
+`firewall-cmd --remove-port={101/tcp,202/udp,303/tcp}` removes multiple ports 
+
+The runtime config is the output you get when you run `firewall-cmd --list-all`. 
+
+To make the changes from the above output permanent, use `firewall-cmd --runtime-to-permanent`. This command makes changes persistent. Run it after making changes if you dont use *--permanent* option*. You should reload the firewall after running this command. 
+
+Block an incoming ip: `firewall-cmd --zone=block --add-source=10.0.0.13`. Makes all the traffic from the source address get handled by the block zone. 
+
+Block an entire network by just adding the side notation to the ip address: `firewall-cmd --zone=block --add-source=10.0.0.0/24`. 
+
+drop zone: completely ignores the traffic. Stricter than block. 
+
+Part 2 video
+
+Zone comparison
+
+Low trust: block, drop, public
+
+Med trust: dmz, external, internal
+
+High trust: work, home, trusted
+
+All zones except trusted have a way of rejecting traffic. *drop* just ignores the traffic.
+
+Trusted accepts all inbound traffic. only direct traffic here if you trust it. 
+
+All zones allow yiu to make outbound connections. To block certain websites, you need a to add to the "rich rule". 
+
+nm-shared - a zone used internally for network connections
+
+Only active zones have interfaces attached to them. If an interface is assigned to a non-default zone, it will be active and the default one will not be active if it has no interface assigned to it. 
+
+When you remove an interface in a non-default zone, it becomes attached to the active default zone 
+
 <br >
 
 ## CSG
