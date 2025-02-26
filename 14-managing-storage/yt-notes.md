@@ -1,4 +1,6 @@
-# beanologk
+# GPT and MBR Partitions
+
+## beanologk
 
 In fdisk, you can use **m** to access a help page 
 
@@ -36,7 +38,7 @@ Extended partition type is for logical partitions
 
 gpt can have up to 128 partitions
 
-
+## DexTutor 
 
 
 
