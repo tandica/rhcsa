@@ -38,10 +38,25 @@ To go back inside an interactive container: `podman exec -it containername /bin/
 
 In `podman run --name containername -d -p 4080:8080 containerid`, -p is for port. We are binding a port from host system to one from the guest. In the inspect for the image, this container was set to listen to port 8080, but we want it to listen to 4080. This won't work if you use privileged ports. 
 
-Make a permanent firewall exception for the specified port: `firewall-cmd --permanent --add-port=
+Make a permanent firewall exception for the specified port: `firewall-cmd --permanent --add-port=4080/tcp`. then reload the firewall. 
 
+#### attach persistent storage 
 
+same way u can forward a port , you can forward storage. 
 
+`podman run --name mycomt -d -p 4080:8080 -c /home/dir:/var/container:z`
+
+**-v** option is for volume. 
+
+you can write log messages in the exec output with logger. 
+
+#### building containerfiles and have containers start as a systems service 
+
+create file called Containerfile. 
+
+`loginctl enable-linger username` enables linger so container can be persistent 
+
+`loginctl show-user username` shows details for the specified user, including linger value. 
 
 
 
