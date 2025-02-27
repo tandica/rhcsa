@@ -1,4 +1,4 @@
-# Firewalls
+# Firewall
 
 ## Beanologi
 
@@ -80,15 +80,33 @@ choose the one you want to block:
 `firewallcmd --add-icmp-block=echo-request --permanent` 
 
  
-`firewallcmd --add-icmp-block-inversion --permanent` blocks all icmp traffic so that you can allow a few of them. All icmp traffic is allowed by drfault so if you block a few of them then run this inversion command, it will allow the few you initially blocked and block the rest. 
+`firewall-cmd --add-icmp-block-inversion --permanent` blocks all icmp traffic so that you can allow a few of them. All icmp traffic is allowed by drfault so if you block a few of them then run this inversion command, it will allow the few you initially blocked and block the rest. 
 
 
 <br >
 
 ## CSG
 
+### Restrict network access using firewall-cmd/firewall
+
+`firewall-cmd --get-zones` lists all zones 
+
+`firewall-cmd --new-zone=<new-zone> --permanent` creates a new zone. Must be used with the **--permanent** option.
+
+`firewall-cmd --zone=<zone-name> --list-all` lists the details of a specific zone.
+
+`firewall-cmd --change-interface=<interface>` adds interface to a zone.
+
+`firewall-cmd --get-active-zones` lists active zones and their interfaces.
+
+Get all services: `firewall-cmd --get-services`
+
+### Configure firewall settings with firewall-cmd/firewall
+
 
 
 <br >
 
 ## DexTutor
+
+n/a
