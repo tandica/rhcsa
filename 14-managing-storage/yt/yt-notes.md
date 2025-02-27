@@ -68,17 +68,23 @@ gpt can have up to 128 partitions
 
 `mkfs.vfat /dev/sb`
 
-Mount file system not permanently : `mount /dev/sb /mnt-point`
+Mount file system not permanently: `mount /dev/sb /mnt-point`
 
 To mount permanently, mohnt it directly in /etc/fstab
 
 `umount /mnt-point` unmounts the directoryiss mounted to the specified mount point. 
 
+`fsck.vfat /dev/sb` runs a file system check to check if there are errors, repair them and update the file system structure if needed. Only run this command when the file ysstem is **unmounted**. 
+
+To run a filesystem check on any type of file system, do `fsck /dev/sb`.
+
+XFS file system check: `xfs_repair /dev/sb`.
+
+`xfs_info` shows info related to the current xfs filesystem.
+
 <br>
 
 ## DexTutor 
 
-
-
-
+n/a
 
