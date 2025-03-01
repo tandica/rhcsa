@@ -59,7 +59,15 @@ create file called Containerfile.
 `loginctl show-user username` shows details for the specified user, including linger value. 
 
 
+<br>
 
+## DexTutor
+
+You need to login to the podman registry in the exam.
+
+`podman pull img` pulls docker image.
+
+If asked to map a volume, it means you have to map a directory on your system to a directory on the container. 
 
 
 
