@@ -67,44 +67,43 @@ You need to login to the podman registry in the exam.
 
 `podman pull img` pulls docker image.
 
-If asked to map a volume, it means you have to map a directory on your system to a directory on the container. 
+If asked to map a volume, it means you have to map a directory on your system to a directory on the container. Usually, you have to create the local directory.
+
+`podman run -d --name Web1 -p 8080:80 -v /local/dir:/container/dir:Z xxximg-idxxx` runs a container mapped to a specific port, also mapped to a local directory.
 
 
+#### Run container as a service
 
+1. Create a directory with -p option
 
+`mkdir -p ~/.config/systemd/user`
 
+2. Go into that directory
 
+`cd ~/.config/systemd/user`
 
+3. Generate systemd file
 
+`podman generate systemd --name web2 --files --new`
 
+This generates a web2.service file. Check this with `ls` in the current directory you're in.
 
+Double check in this file that it has **WantedBy=default.target** with vim.
 
+4. Reload the user, start & enable the service.
 
+`systemcl --user daemon-reload`
 
+`systemctl --user start container-web2.service`
 
+`systemctl --user enable container-web2.service`
 
+Check the status of the service.
 
+`systemctl --user status container-web2.service`
 
+<br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+With this, you can host any web page through the container by creating some index.html file, putting content in it and calling it with curl to check that its working.
 
 
