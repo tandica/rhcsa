@@ -1,4 +1,4 @@
-# containers 
+# Containers 
 
 ## beanoligi
 
@@ -61,6 +61,11 @@ create file called Containerfile.
 
 <br>
 
+## CSG 
+
+
+<br>
+
 ## DexTutor
 
 You need to login to the podman registry in the exam.
@@ -106,4 +111,26 @@ Check the status of the service.
 
 With this, you can host any web page through the container by creating some index.html file, putting content in it and calling it with curl to check that its working.
 
+#### Containerfile
 
+Create/build a container using a container file.
+
+You should store the Containerfile in its own directory.
+
+To build the container image with the Containerfile, you need to cd into the directory its stored in and run `podman build -t imgname .`
+
+Check if it exists with `podman images`.
+
+Next, create the container with `podman run -d --name containername -v /data/input:/data/input imgname`
+
+To run a con tainer as a systemd service, first create the directory `mkdir -p ~/.config/systemd/user`.
+
+Then, generate the systemd service file: `podman generate systemd --name containername --files --now`.
+
+Reload the daemon, then start and enable the service that was created.
+
+`systemctl --user daemon-reload`
+
+`systemctl --user start container.service`
+
+`systemctl --user enable container-service`
