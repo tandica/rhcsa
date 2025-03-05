@@ -39,6 +39,39 @@ Test the */etc/fstab* with `mount -a`, which mounts everything that isn't yet mo
 
 ### Autofs
 
+**&** is used at the end of the path as a wildcard.it can reference any directory in that path.
+
+allows you to access "shares" on the server. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+VDO / lvm 
+
+add a new disk to the vm. 
+
+create volume group: `vgcreate volume-name /dev/disk-path`
+
+`lvcreate` creates lvm.  
+
+mount it persistently in the /etc/fstab. 
+
+
+
+
+
+
+
+
 <br>
 
 ## CSG 
