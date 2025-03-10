@@ -1,10 +1,12 @@
-# selinux
+# SELinux
 
-semanage - 
+## beanologi 
+
+`semanage` - used to change SELinux context
 
 default policy is targeted. 
 
-different apps define what is acceptable behaviour for the binaries n files used for that app. 
+Different apps define what is acceptable behaviour for the binaries n files used for that app. 
 
 labels and context help define if there are issues with an application. 
 
@@ -30,46 +32,41 @@ to restore default file context, run `restorecon`. Use **-Rv** options for recur
 
 set default file context:
 
-`man semanage-fcontext` has the examples you need. 
+** **`man semanage-fcontext` has the examples you need.** 
 
+`semanage fcontext -l` lists the default file context settings for the current SELinux policy
 
+`semanage port -l` lists all port type context settings currently in the policy
 
+Make http be hosted on a non-standard port: 
+- go into */etc/httpd/conf/httpd.conf* file
+- change the `Listen` line to the desired port (ex: 4080)
+- update the selinux context for the port: `semanage port -a -t http_port_t -p tcp 4080`
 
+** **`man semanage-port` has examples you need.**
 
+For booleans, use ** **`man semanage-boolean`**
 
+`getsebool -a` lists all bolleans on the system. 
 
+`semanage boolean -l` lists booleans on the system with details like the state, its default state and a description.
 
+`setsebool http_enable_name 1` sets the boolean to on for http_enable_name.
 
+`setsebool -P ftpd_anon_write on` also sets the boolean to on, but permanently, for ftpd_anon_write. 
 
+<br>
 
+## CSG
 
+- SElinux defines access controls for the applications, processes and files on a system
+- It uses secutiry policies which are rules that tell SELinux what can or cannot be accessed
+- Prevents application from making chanegs on a system where it's not allowed to
 
+`getenforce` gets the SELinux mode.
 
+`sestatus` shows info about SELinux, including modes.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+** SELinux logs are written to */var/log/audit/audit.log* and are tagges with **type=AVC**. To get these logs, you can do `grep AVC /var/log/audit/audit.log`.
 
 
