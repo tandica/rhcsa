@@ -28,7 +28,9 @@ then, reboot the system.
 
 `ls -Z` shows selinux context label. 
 
-to restore default file context, run `restorecon`. Use **-Rv** options for recursive and verbose. 
+**To restore default file context**:
+- run `restorecon`
+- Use **-Rv** options for recursive and verbose. 
 
 set default file context:
 
@@ -69,4 +71,18 @@ For booleans, use ** **`man semanage-boolean`**
 
 ** SELinux logs are written to */var/log/audit/audit.log* and are tagges with **type=AVC**. To get these logs, you can do `grep AVC /var/log/audit/audit.log`.
 
+`ls -Z` lists the security context of the files in that directory.
 
+`ps -z` displays security context labels for running processes 
+
+**Restore default file context:** `restorecon -R /dir/dir` restores file contexts recursivley. 
+
+`getsebool -a | grep http` gets booleans for http service.
+
+`setsebool -P http_ex_ample on` sets booleans permanently.
+
+Get info for these commands: `info semanage`. 
+
+To use `sealert`, install `dnf install setrouobleshoot-server`. 
+
+`audit2allow -a -w` shows the error and a fix for SELinux 
