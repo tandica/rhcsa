@@ -98,3 +98,36 @@ exit
 ```
 
 You need to add execute permissions to run your script like `chmod 754 file.sh`. 
+
+```bash
+#!/bin/bash 
+
+# iterate
+# get all files which have an extension of .log in the current directory 
+for file in ./*.log
+do
+    # change file extension from .log to .txt
+    file1=`echo "${file} | sed s/\.log$//g`
+    echo $file1
+    echo $file
+    mv "${file}" "${file1}".txt
+done
+
+exit
+```
+
+
+```bash
+#!/bin/bash 
+
+input="/home/user/test.log"
+
+#read all the lines in the input file
+while IFS= read -r line
+do
+    echo "$line"
+#assigm the input value to the while loop 
+done < "$input"
+
+exit
+```
