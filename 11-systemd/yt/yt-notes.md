@@ -37,4 +37,7 @@ Targets that are useful and commonly used:
 
 `systemctl get-default` shows the current target the system uses. 
 
-To boot into certain targets, go to the GRUB menu and edit the line that starts with "linux". Add the line `system.unit=emergency.target` to boot into the emergency target mode.
+**To boot into certain targets**, go to the GRUB menu and edit the line that starts with "linux". Add the line `system.unit=emergency.target` to boot into the emergency target mode.
+
+`dracut` regenerates the initramfs. 
+
