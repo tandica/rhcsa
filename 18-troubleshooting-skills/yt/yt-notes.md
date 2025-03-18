@@ -12,7 +12,7 @@
 
 #### 6. Ensure the SELinux context types are correct by creating a autorelabel file with `touch /.autorelabel`.
 
-#### 7. Start the system with Systemd as PID (process id 1): `exec /sbin/init`
+#### 7. Start the system with Systemd as PID (process id 1): `exec /usr/lib/systemd/systemd`
 
 #### 8. `reboot`
 
