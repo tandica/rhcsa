@@ -24,3 +24,36 @@
 
 `dnf config-manager --add-repo=https://link-to-appstream`
 
+You can run `dnf update` to ensure that everything is running.
+
+### 3. Set the system time to your nearest timeone and ensure NTP sync is configured.
+
+Get your timezone:
+
+```bash
+timedatectl list-timezones
+```
+Set the timezone:
+```bash
+timedatectl set-timezone America/Toronto
+```
+
+Configure NTP (turn it on):
+```bash
+timedatectl set-ntp 1
+```
+
+For NTP, ensure the **chronyd** service is installed. This service gets the time from the internet by default.
+
+```bash
+dnf install -y chronyd
+
+systemctl enable --now chronyd
+
+systemctl status chronyd
+```
+
+### 4. Add the following secondary IP addresses statically to your current running interface. Do this in a way that doesn't compromise your existing settings: 
+#### a. IPV$ - 10.0.0.5/24
+#### b. IPV6 - fd01::100/64
+
