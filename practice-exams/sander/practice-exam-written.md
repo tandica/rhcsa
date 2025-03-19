@@ -37,7 +37,34 @@ lv has 3 parts, phycial volume, volume group, logical volume.
 
 10. get the best performance profile with tuned get recommended. Then set that value. 
 
-11. to find an rpm package that you don’t know the name of, you can use dnf search 
+11. to find an rpm package that you don’t know the name of, you can use dnf search. review. 
+
+12. locate all files using the find command, search for "root" in the file name. review, seems wrong 
+
+13. if you get a "nothing appropriate" msg for `man -k user`, you can fix it by updating the man db. 
+
+14. you can create the group, then add the user to it. review 
+
+15. review 
+
+16. review 
+
+17. review 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
