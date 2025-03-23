@@ -57,3 +57,7 @@ systemctl status chronyd
 #### a. IPV$ - 10.0.0.5/24
 #### b. IPV6 - fd01::100/64
 
+Check the active network interfaces: `ifconfig`. The active interface is the one you want to change. The one which was chosen had 7.9 MiB vs the other one which had 9.2KiB. Look for the name of it (eth1).
+
+Modify the connection:
+`nmcli connection modify "System eth1" +ipv4.address 10.0.0.5/24"
