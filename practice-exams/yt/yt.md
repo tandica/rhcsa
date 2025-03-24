@@ -12,7 +12,7 @@ seat number/workstation replaces x variable
 
 you can choose to use the base machine and ssh into the servers or you can use the servers directly. 
 
-1. configure tcp/ip as follows 
+### 1. configure tcp/ip as follows 
 
 use nmtui - does it only work as root user? 
 
@@ -24,7 +24,7 @@ set the hostname in nmtui
 
 `route -n` lists the gateway to ensure its correct 
 
-2. configure servera vm repo is available for these packages 
+### 2. configure servera vm repo is available for these packages 
 
 baseos and appstream 
 
@@ -43,7 +43,7 @@ gpgcheck=0
 check if things are running 
 yum repolist
 
-3. selinux httpd issues on port 82
+### 3. selinux httpd issues on port 82
 
 https service is having issues. check the status of it 
 
@@ -63,7 +63,7 @@ restart httpd service and enable it to be safe
 
 to test it, you can do curl server.url.com:82 and see if any output is there 
 
-4. groups, users and group memberships 
+### 4. groups, users and group memberships 
 
 add a secondary group for a user : useradd -G sysadm harry
 
