@@ -162,7 +162,7 @@ logical extent
 
 4. To add an entire hard disk to the volume group *vgroup*, you can extend it using `vgextend vgroup /dev/sdd` where "sdd" is the name of the hard disk. 
 
-5. `lvcreate -L 6MiB lvvol1 vgname` creates a logical volume names *lvvol1* with a size of 6MiB.
+5. `lvcreate -L 6MiB -n lvvol1 vgname` creates a logical volume names *lvvol1* with a size of 6MiB.
 
 6. `lvextend -r -L +100MB /dev/vgname/lvvol1` adds 100mb to the logical volume *lvvol1*. 
 

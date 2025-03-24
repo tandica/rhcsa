@@ -209,3 +209,39 @@ vgs
 
 ### 8. Create a 500mb logical volume names "lvprac" inside the "vgprac" volume group.
 
+Create the LV:
+
+```bash
+lvcreate -L 500M -n lvprac vgprac
+```
+
+Confirm the creation of the LV:
+
+```bash
+lvs
+# Output:
+  # LV     VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  # root   rhel   -wi-ao---- <30.50g                                                    
+  # swap   rhel   -wi-ao----   3.50g                                                    
+  # lvprac vgprac -wi-a----- 500.00m    
+```
+
+### 9. The "lvprac" logical volume should be formatted with the XFS filesystem and mounted persistently on the /mnt/lvprac directory. 
+
+Create file system on the lvprac logical volume. Use the path with the volume group name: 
+```bash
+mkfs.xfs /dev/vgprac/lvprac
+```
+
+Check that it was successful:
+```bash
+lsblk -f
+# Output:
+  # └─vgprac-lvprac
+  #    xfs                e883167d-9775-471b-b6c6-3476eaec17c7  
+```
+
+Create the mount folder:
+```bash
+mkdir /mnt/lvprac
+```
