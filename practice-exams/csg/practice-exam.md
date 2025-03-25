@@ -245,3 +245,119 @@ Create the mount folder:
 ```bash
 mkdir /mnt/lvprac
 ```
+
+Edit the */etc/fstab* file and add the following:
+```bash
+/dev/vgprac/lvprac      /mnt/lvprac             xfs     defaults        0 0
+```
+
+Check if there are any issues:
+```bash
+mount -a
+# Output:
+
+# mount: (hint) your fstab has been modified, but systemd still uses
+#        the old version; use 'systemctl daemon-reload' to reload.
+```
+
+Reload the daemon as the message suggests and verify the mount:
+```bash
+systemctl daemon-reload
+
+df -h
+# Output:
+
+# /dev/mapper/vgprac-lvprac  436M   29M  408M   7% /mnt/lvprac
+```
+
+### 10. Extend the XFS filesystem on "lvprac" by 500MB.
+
+**-r** option resizes the filesystem.
+Add the plus (+) to increase the size by a specific amount!
+
+```bash
+lvextend -r -L +500M /dev/vgprac/lvprac
+# Output:
+
+# mount: (hint) your fstab has been modified, but systemd still uses
+#        the old version; use 'systemctl daemon-reload' to reload.
+```
+
+### 12. Configure a basic web server that displays a message once connected. Ensure firewall is configured for the httpd service. 
+
+1. install httpd server. enable and start it.
+2. create a directory and index.html file 
+3. add the file to the httpd service config file
+4. ensure firewall is allowed on that port (80) and that httpd is added as a service
+5. check page 
+
+Install httpd service, check the status, enable and start if needed:
+```bash
+dnf -y installl httpd
+
+systemctl status httpd
+
+systemctl enable httpd --now
+
+systemctl status httpd
+```
+
+Create and add a message in the file path */var/www/html*:
+```bash
+vim /var/www/html/index.html
+# Message added:
+# "Hello from ym web server!"
+
+cat /var/www/html/index.html
+# Output:
+# Hello from my web server!
+```
+
+Configure the firewall. Add the httpd service to the active zone:
+```bash
+firewall-cmd --add-service=http --permanent
+
+firewall-cmd --add-service=https --permanent
+
+firewall-cmd --reload 
+
+# Verify that the services have been added
+firewall-cmd --list-all
+```
+
+Check the output:
+```bash
+curl http://localhost
+# Output:
+
+# Hello from my web server!
+```
+
+### 13. Find all files that are larger than 5MB in the /etc directory and copy them to /find/largefiles.
+
+Create that directory.
+```bash
+mkdir -p /find/largefiles
+```
+
+Use the find command:
+```bash
+find /etc/ -size +5M -exec cp {} /find/largefiles/ \;
+```
+
+`-size` specifies the size of the files you want to find.
+
+`-exec` allows you to run a command directly on those files which are found.
+
+**{}** refers to the files that are found.
+
+**\;** specifies that the command is closed and done.
+
+Verify the files were copied with `ls -l /find/largefiles`.
+
+### 14. Write a script named awesome.sh in the root directory.
+#### a. if "me" is given as an argument, the script should output "Yes, i'm awesome."
+#### b. if "them" is given as an arugment, the script should output "Okay, they are awesome"
+#### c. if the arguemnt is empty or anything else is given, the script should output "What do you want?"
+
+
