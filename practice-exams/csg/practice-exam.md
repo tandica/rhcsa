@@ -357,7 +357,52 @@ Verify the files were copied with `ls -l /find/largefiles`.
 
 ### 14. Write a script named awesome.sh in the root directory.
 #### a. if "me" is given as an argument, the script should output "Yes, i'm awesome."
+
 #### b. if "them" is given as an arugment, the script should output "Okay, they are awesome"
+
 #### c. if the arguemnt is empty or anything else is given, the script should output "What do you want?"
+
+Create and edit the file:
+
+```bash
+touch awesome.sh
+
+vim awesome.sh
+```
+
+Add the following in the created file:
+```bash
+#!/bin/bash
+
+# $1 refers to the first argument, the argument given in the commnd line when running the script
+#remember to put spaces between the square brackets
+if [ "$1" == "me" ] ; then 
+	echo "Yes I'm awesome"
+elif [ "$1" == "them" ] ; then 
+	echo "Okay, they are awesome"
+else 
+	echo "What do you want"
+fi
+
+exit 0
+```
+
+Remember to give the script appropriate permissions, then test it:
+
+```bash
+# the below cmd adds execute permissions to make the script executable
+chmod +x awesome.sh
+
+./awesome.sh me
+```
+
+### 15. Create users phil, laura, stewart and kevin.
+#### a. All new users should have a file named "Welcome" in their home folder after account creation.
+
+#### b. All user pw should expire after 60 days and be at least 8 characters in length.
+
+#### c. phil and laura should be part of "accounting" group.
+
+#### d. stewart and kevin should be part of "marketing" group.
 
 
