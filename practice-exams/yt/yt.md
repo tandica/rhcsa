@@ -65,11 +65,32 @@ to test it, you can do curl server.url.com:82 and see if any output is there
 
 ### 4. groups, users and group memberships 
 
-add a secondary group for a user : useradd -G sysadm harry
+add a secondary group for a new user : useradd -G sysadm harry
 
 make user have no access to interactive shell: useradd -s /sbin/nologin
 
-give a group access to add users in the server: edit the config file with visudo 
+give a group access to add users in the server: edit the config file with visudo. it goes directly to the config file. put `%sysadmin ALL=/usr/bin/useradd`. The % is needed to define the group. find the path of useradd with `which useradd`. 
+
+
+to give a user the ability to set passwords, without asking for the sudo pw, do this with visudo: `bob ALL=(ALL) NOPASSWD: /usr/bin/passwd`
+
+To give a user full access: `sally ALL=ALL`
+
+To give a user access to all cmds without sudo password: `sadi ALL=(ALL) NOPASSWD: ALL`
+
+
+### 5. create collaborative directory 
+
+make directory owned by a certain group: `chgrp marketing /shared/marketing`
+
+change directory permissions to only be accessed by members of the group and no access for others: `chmod 2770 /shared/marketing`
+
+### 6. make a cronjob 
+
+### 7. nfs
+
+
+
 
 
 
