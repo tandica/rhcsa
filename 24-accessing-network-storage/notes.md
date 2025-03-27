@@ -94,14 +94,19 @@ To define a mount in automount:
 
 autofs helps to automatically mount the storage on demand using automount. With automount, no file systems are mounted that are not really needed. The file systems do not have to be mounted permanently. 
 
-Install nfs-utils package to miunt NFS shares on an NFS client. 
+Install nfs-utils package to mount NFS shares on an NFS client. 
+
+You need to install autofs package. 
 
 Use `showmount -e` to list shares offered by an NFS server. Sometimes if you type this and don’t get sny output, its because of the firewall rules. you need to add "rpc-bind" and "mountd" services to the firewall. 
 
 The purpose of NFS is to make it possible to mount remote file systems into the local file system hierarchy. 
 
+### Steps to configure automount for NFS
 
-Steps to define a mount:
+You first need to install both nfs-utils and autofs to mount storage with autofs. 
+
+#### To define a mount:
 1. Edit the master config file */etc/auto.master* 
 - add the mount point and its corresponding secondary file, which you meed to create 
    - should look like: `/nfsmountpoint   /etc/auto.nfsmountpoint
@@ -110,4 +115,28 @@ Steps to define a mount:
 - in this file, add the name of the subdirectory that will be created in the mount point directory. *Ex:* shared in /nfsmountpoint/shared 
 - add the mount options, such as read, write (-rw)
 - add the server share name such as server2:/nfsmountpoint
-   -should look like `shared -rw server2:/nfsmountpoint
+   -should look like `/shared -rw server2:/nfsmountpoint
+
+Enable and start the autofs service. 
+
+### Wildcards
+
+Sometimes mounting fixed directory names is not the best solution, so we use wildcards. 
+
+The automount mounts a share that matches the name of the directory accessed. For instance, when user anna logs in, she can have access to /home/anna. 
+
+#### To configure a wildcard card mount: 
+
+1. Edit the master config file */etc/auto.master* 
+- add the mount point and the corresponding secondary file which you need to create 
+   - should look like `/users    /etc/auto.users‘
+
+2. Create the secondary file */etc/auto.users*
+- it should have an asterick * first, ehich represents the "wildcard" directory to mount
+- add the mount options (READ, WRITE) 
+- add the server share name, which always includes an "&" at the end
+   - everything should look like `*     -rw      server2:/users/&`
+
+
+
+
