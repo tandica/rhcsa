@@ -88,3 +88,26 @@ To define a mount in automount:
 - `firewall-cmd --add-service=mountd --permanent`
 - `firewall-cmd --reload`
 
+
+
+### Review Notes 
+
+autofs helps to automatically mount the storage on demand using automount. With automount, no file systems are mounted that are not really needed. The file systems do not have to be mounted permanently. 
+
+Install nfs-utils package to miunt NFS shares on an NFS client. 
+
+Use `showmount -e` to list shares offered by an NFS server. Sometimes if you type this and don’t get sny output, its because of the firewall rules. you need to add "rpc-bind" and "mountd" services to the firewall. 
+
+The purpose of NFS is to make it possible to mount remote file systems into the local file system hierarchy. 
+
+
+Steps to define a mount:
+1. Edit the master config file */etc/auto.master* 
+- add the mount point and its corresponding secondary file, which you meed to create 
+   - should look like: `/nfsmountpoint   /etc/auto.nfsmountpoint
+
+2. Create the secondary file */etc/auto.nfsmountpoint*
+- in this file, add the name of the subdirectory that will be created in the mount point directory. *Ex:* shared in /nfsmountpoint/shared 
+- add the mount options, such as read, write (-rw)
+- add the server share name such as server2:/nfsmountpoint
+   -should look like `shared -rw server2:/nfsmountpoint
