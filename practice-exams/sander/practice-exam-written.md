@@ -21,7 +21,7 @@ lv has 3 parts, phycial volume, volume group, logical volume.
 
 6. Use cron job and specify that the user is bob. Specify that the job should run at midnight every night. 
 
-7. review 
+7. To create a user that is not allowed to login, use `useradd -s user1`. 
 
 8. Check the status and logs of httpd service. Confirm if that port is allowed by the firewall. check httpd config file where that port was defined for any errors. 
 
