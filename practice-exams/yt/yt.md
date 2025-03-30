@@ -1,4 +1,4 @@
-# cyber custodian yt vid 
+# All Review YT Vids
 
 2 vms in the exam - one server will have network configs and other won't. 
 
@@ -67,7 +67,7 @@ to test it, you can do curl server.url.com:82 and see if any output is there
 
 add a secondary group for a new user : useradd -G sysadm harry
 
-make user have no access to interactive shell: useradd -s /sbin/nologin
+make user have no access to interactive shell: `useradd jon -s /sbin/nologin`
 
 give a group access to add users in the server: edit the config file with visudo. it goes directly to the config file. put `%sysadmin ALL=/usr/bin/useradd`. The % is needed to define the group. find the path of useradd with `which useradd`. 
 
