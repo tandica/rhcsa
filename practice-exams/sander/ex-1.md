@@ -27,22 +27,31 @@ The installation of the ISO disk is at */dev/sr0*. Automatically mount it using 
 mount /dev/sr0 /repo
 ```
 
-Create a local repo file in */etc/yum.repos.d*
+For RHEL9, there is AppStream and BaseOS, so we need to create 2 repo files for those in */etc/yum.repos.d*:
 
 ```bash
-vim iso-local.repo
+vim AppStream.repo
 ```
 
-In the file, add the title in square brackets, name, baseurl, enabled, and gpgcheck:
+In each file, add the title in square brackets, name, baseurl, enabled, and gpgcheck:
 
 ```vim
-[iso-local]
-name=iso-local
-baseurl=file:///repo
+[AppStream]
+name=AppStream
+baseurl=file:///repo/AppStream
 enabled=1
 gpgcheck=0
 ```
-The baseurl should point to the local mount point. 
+
+```vim
+[BaseOS]
+name=BaseOS
+baseurl=file:///repo/BaseOS
+enabled=1
+gpgcheck=0
+```
+
+The baseurl should point to the local mount point for both AppStream and BaseOS. 
 
 Mount the file in */etc/fstab*:
 
@@ -50,13 +59,11 @@ Mount the file in */etc/fstab*:
 vim /etc/fstab
 ```
 
-Add this: `/dev/sr0		/repo			iso9660	ro,auto		0 0`
+Add this: `/dev/sr0		/repo			iso9660	ro		0 0`
 
 `iso9960` is used to specify the file system as an ISO.
 
 `ro` means read only. 
-
-`auto`  means automatically mount. as per the question requirements.
 
 Test with `mount -a`.
 
@@ -236,4 +243,32 @@ crontab -l
 
 ### 12. Create user bob and set this user’s shell so that this user can only change the password and cannot do anything else.
 
+Create the user and set the password:
+```bash
+useradd bob
+
+passwd bob
+```
+
+Edit the sudoers file with `visudo` and add the following:
+` bob    ALL=(ALL)   NOPASSWD: /usr/bin/passwd`
+
+Restrict the user to only be able to change their password upon login:
+```bash
+usermod -s /bin/passwd bob
+```
+
+
+### 13. Install the vsftpd service and ensure that it is started automatically at reboot.
+
+Install, enable and start the service.
+
+```bash
+dnf install -y vsftpd
+
+systemctl enable --now vsftpd
+```
+
+
+### 14. Create a container that runs an HTTP server. Ensure that it mounts the host directory /httproot on the directory /var/www/html.
 
