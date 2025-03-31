@@ -22,3 +22,9 @@ gpgcheck=0
 6. Check for errors in the mount: `mount -a`
 7. Verify the files are in the mount-point: `ls -l /mount-point`. `reboot` to verify persistence.
 
+### To set pw properties for new users
+Edit the */etc/.login.defs* file for system-wide configuration.
+
+To verify the changes, create a new user, then run `chage -l username`.
+
+(If you need to set pw properties for existing users, you can use `chage`)

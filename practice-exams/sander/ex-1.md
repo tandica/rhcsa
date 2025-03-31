@@ -84,4 +84,156 @@ You can `reboot` to see if there are any errors, just to be safe, and double che
 
 ### 5. Set default values for new users. Set the default password validity to 90 days, and set the first UID that is used for new users to 2000.
 
+Since this is for new users, it's a system-wide configuration which must be set in **/etc/login.defs**.
+
+As root, edit the file:
+```bash
+vim /etc/login.defs
+```
+
+Change the line **PASS_MAX_DAYS** to 90 and **UID_MIN** to 2000, as the question states.
+
+To verify this, you can create a new user, then type `chage -l username`.
+
+### 6. Create users edwin and santos and make them members of the group livingopensource as a secondary group membership. Also, create users serene and alex and make them members of the group operations as a secondary group. Ensure that user santos has UID 1234 and cannot start an interactive shell.
+
+Create the groups:
+```bash
+groupadd livingopensource
+
+groupadd operations
+```
+
+Create user edwin:
+```bash
+useradd edwin -G livingopensource
+```
+
+Create user santos:
+```bash
+useradd santos -G livingopensource -s /sbin/nologin -u 1234
+```
+
+Create user serene:
+```bash
+useradd serene -G operations
+```
+
+Create user alex:
+```bash
+useradd alex -G operations
+```
+
+
+### 7. Create shared group directories /groups/livingopensource and /groups/operations, and make sure the groups meet the following requirements:
+
+#### 1. Members of the group livingopensource have full access to their directory.
+#### 2. Members of the group operations have full access to their directory.
+#### 3. New files that are created in the group directory are group owned by the group owner of the parent directory.
+#### 4. Others have no access to the group directories.
+
+Create the directories:
+```bash
+mkdir -p /groups/livingopensource
+
+mkdir -p /groups/operations
+```
+
+Change the ownership of the directories to the corresponding group:
+```bash
+chown :livingopensource /groups/livingopensource
+
+chown :operations /groups/operations
+```
+
+
+Change the permissions of the directory, with the GID specified:
+```bash
+chmod 2770 /groups/livingopensource
+
+chmod 2770 /groups/operations
+```
+
+Verify the directories have an "s" in the permissions with long listing:
+```bash
+ls -l /groups
+```
+
+
+### 9. Create a 2-GiB volume group with the name myvg, using 8-MiB physical extents. In this volume group, create a 500-MiB logical volume with the name mydata, and mount it persistently on the directory /mydata.
+
+pv -> vg -> lv 
+
+The current additional disk is 20gb, so I will create a new partition under it with `fdisk`...
+
+Type `n` for new partition, specify the size (+2G), press `t` to change the type to "LVM" and `w` to save the changes.
+
+Create a physical volume on the new partition:
+```bash
+pvcreate /dev/nvme0n2p1
+```
+
+Create a volume group with the desired specifications. Define the extent size here:
+```bash
+vgcreate -s 8MiB myvg /dev/nvme0n2p1
+```
+
+Create the logical volume:
+```bash
+lvcreate -n mydata -L 500MiB myvg
+```
+
+Create a filesystem on the lvm:
+```bash
+mkfs.ext4 /dev/myvg/mydata
+```
+
+Create the directory to mount it on:
+```bash
+mkdir /mydata
+```
+
+Edit the /etc/fstab file: `/dev/myvg/mydata	/mydata			ext4	defaults	0 0`
+
+Verify the mount and check if there are errors:
+```bash
+mount -a
+```
+
+Reboot to ensure persistence.
+
+
+### 10. Find all files that are owned by user edwin and copy them to the directory /rootedwinfiles.
+
+Create the directory to copy the files to:
+```bash
+mkdir /rootedwinfiles
+```
+
+Use the `find` command:
+```bash
+find / -user edwin -exec cp --parents {} /rootedwinfiles \;
+```
+**--user** specifies which user's files to look for
+**-exec** executes a command on the files
+**--parents** copies the directory structure so no files are overwitten
+
+
+### 11. Schedule a task that runs the command touch /etc/motd every day from Monday through Friday at 2 a.m.
+
+Use `crontab -e` to create a cron job. Run `man 5 crontab` to get the info for date/time fields.
+
+Add this in the crontab editor:
+```
+0 2 * * 1-5 touch /etc/motd
+```
+
+Verify the job has been added:
+```bash
+crontab -l
+```
+
+
+### 12. Create user bob and set this user’s shell so that this user can only change the password and cannot do anything else.
+
 
