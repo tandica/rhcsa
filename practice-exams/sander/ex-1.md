@@ -272,3 +272,43 @@ systemctl enable --now vsftpd
 
 ### 14. Create a container that runs an HTTP server. Ensure that it mounts the host directory /httproot on the directory /var/www/html.
 
+Install container-tools:
+```bash
+dnf install -y container-tools
+```
+
+Create the host directory and an index file with some content:
+```bash
+mkdir /httproot
+
+vim /httproot/index.html
+```
+
+Check for podman images for httpd:
+```bash
+podman images
+```
+
+Since there are no existing images, search for the httpd image link and pull it:
+```bash
+podman search httpd
+
+# docker.io/library/httpd 
+```
+
+Run the image with the necessary parameters:
+```bash
+podman run -d --name httpdserver -p 8080:80 -v /httproot:/var/www/html docker.io/centos/httpd 
+```
+-d runs the container in "detached" mode (in the background).
+
+-p specifies the port. Host port 8080 is mapped to container port 80
+
+-v means volume. It creates a bind-mount, which "binds" a host directory to the container directory. 
+
+Add the port to the firewall exceptions:
+```bash
+firewall-cmd --add-port=8080/tcp --permanent
+
+firewall-cmd --reload
+```
