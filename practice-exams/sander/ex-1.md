@@ -289,11 +289,15 @@ Check for podman images for httpd:
 podman images
 ```
 
-Since there are no existing images, search for the httpd image link and pull it:
+Since there are no existing images, search for the httpd image link, pull it and verify it exists locally:
 ```bash
 podman search httpd
 
-# docker.io/library/httpd 
+# docker.io/centos/httpd
+
+podman pull docker.io/centos/httpd
+
+podman images
 ```
 
 Run the image with the necessary parameters:
@@ -302,13 +306,50 @@ podman run -d --name httpdserver -p 8080:80 -v /httproot:/var/www/html docker.io
 ```
 -d runs the container in "detached" mode (in the background).
 
--p specifies the port. Host port 8080 is mapped to container port 80
+-p specifies the port. Host port 8080 is mapped to container port 80.
 
--v means volume. It creates a bind-mount, which "binds" a host directory to the container directory. 
+-v means volume. It creates a bind-mount, which "mounts" the host directory to the container directory. 
 
 Add the port to the firewall exceptions:
 ```bash
 firewall-cmd --add-port=8080/tcp --permanent
 
 firewall-cmd --reload
+```
+
+Add the `http` service to the firewall.
+```bash
+firewall-cmd --add-service=http
+```
+
+Test your changes:
+```bash
+curl http://localhost:8080
+```
+
+
+### 15. Configure this container such that it is automatically started on system boot as a system user service.
+
+Make sure you are NOT logged in as a root user. You may need to create the container again as a non-root user...
+
+Enable lingering for the user who created the container. This allows the service to start even though they're not logged in.
+```bash
+loginctl enable-linger user
+```
+
+Create the directory to store the Systemd files in and `cd` into it:
+```bash
+mkdir ~/.config/systemd/user && cd ~/.config/systemd/user
+```
+
+Generate the Systemd files with the same name as the container:
+```bash
+podman generate --name httpdserver --files
+```
+
+Reload the daemon then enable and start the service file: 
+```bash
+systemctl --user reload-daemon
+
+systemctl --user enable --now container-service-file.service
 ```

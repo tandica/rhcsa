@@ -1,5 +1,7 @@
 # Study notes for various tasks
 
+<br>
+
 ## To configure local repo and mount it
 1. Create the directory you want to point it on `mkdir /mount-point`
 2. Create the repo files for AppStream and BaseOS in */etc/yum.repos.d*
@@ -22,6 +24,8 @@ gpgcheck=0
 6. Check for errors in the mount: `mount -a`
 7. Verify the files are in the mount-point: `ls -l /mount-point`. `reboot` to verify persistence.
 
+<br>
+
 ## To set pw properties for new users
 Edit the */etc/.login.defs* file for system-wide configuration.
 
@@ -29,12 +33,27 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 (If you need to set pw properties for existing users, you can use `chage`)
 
+<br>
 
 ## To create a container that runs an http server and mount it
 
 1. Install `container-tools` package for podman
 2. Create the host directory
-3. Verify if the required httpd image is already available to use 
+3. Get the required httpd image
   - `podman images`
   - If not, `podman search httpd` for the required image
-  - `podman pull` the image
+  - `podman pull` the image. Pull a RHEL based one if possible, even like CentOS
+4. Run the container with the necessary parameters
+  - `podman run`
+  - for bind-mounting, ALWAYS use :Z at the end of the repo defn for SELinux labelling
+    - /hostdir:/containerdir
+5. Add the port and http service to the firewall and reload it 
+6. Test changes with `curl`
+
+<br>
+
+## Make a container start as a system user service on boot
+
+1. Enable linger on the current user
+
+
