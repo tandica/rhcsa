@@ -122,18 +122,41 @@ restart and enable chronyd service
 find / -user eddi -exec cp -r {} /some-dir \;
 
 
+### 12. find all strings "xxx" from a directory and copy them to a location 
+
+grep xxx /some-dir > /another-dir
 
 
+### 13. Create user with a specified uid and pw
+
+useradd kim -u 1234
+
+passwd to set the pw 
 
 
+### 14. Change the root password 
 
 
+### 15. Configure repos AppStream and BaseOS 
 
 
+### 16. lvm 
 
+Use the additional disk, not the one the OS is on. There should be one for you on the exam. 
 
+pv - vg - lv 
 
+Create a partition on the new disk with fdisk. make sure you look at all the questions to know if you need storage for other tasks. 
 
+pvcreate /dev/name 
+
+vgcreate -s 8MiB vgname /dev/name
+
+lvcreate -l 50 -n lvname /dev/vgname 
+
+The above sizes the lvm to 50 extents. 8 mb 
+
+lvremove to remove the lv. 
 
 
 
