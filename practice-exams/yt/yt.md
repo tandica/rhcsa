@@ -89,17 +89,37 @@ change directory permissions to only be accessed by members of the group and no 
 
 ### 7. nfs
 
+### 9. Give user specific permissions to a file/directory
+
+Give user ella read/write permissions to the /var/tmp/fstab file:
+
+```bash 
+setfacl u:ella:rw- /var/tmp/fstab
+```
+
+Make user sadi have no read/write/execute permissions on the same file:
+
+```bash 
+setfacl u:sadi:--- /var/tmp/fstab
+```
 
 
+### 10. configure time synchronization with an available server 
 
+install chronyd service 
 
+edit chrony.conf file 
+- comment out the pool name with iburst at the end 
+- put in the server name and keep iburst at the end 
+- save 
 
+you can add ntp to the firewall services 
 
+restart and enable chronyd service 
 
+### 11. find files created by a certain user and copy them into a directory 
 
-
-
-
+find / -user eddi -exec cp -r {} /some-dir \;
 
 
 
