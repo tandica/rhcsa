@@ -154,17 +154,58 @@ vgcreate -s 8MiB vgname /dev/name
 
 lvcreate -l 50 -n lvname /dev/vgname 
 
-The above sizes the lvm to 50 extents. 8 mb 
+The above -l option sizes the lvm to 50 extents from the 8mb extent size set. 
 
 lvremove to remove the lv. 
 
+To set a file system, use mkfs 
+
+create the mount folder and mount it in /etc/fstab 
+
+verify the mount with df -h
 
 
+### 17. create a swap partition of 400mb and make it available permanently  
+
+Create a new partition in the disk with fdisk. 
+
+Set the type to "Linux swap" with 82. 
+
+Make it into a swap with mkswap /dev/sb2. 
+
+Turn it on with swapon /dev/sb2
+
+To make it permanent, mount it with the uuid you see when running blkid. 
+- use "swap" as a mount point and as the file system 
+
+Type swapon -s to verify the changes 
 
 
+### 17. Resize the logical volume to be approx 300mb 
+
+Unmount the partition with umount. 
+
+resize2fs /dev/pathtolv 300M to resize 
+
+lvreduce -L -100M -n /dev/pathtolv to resize 
+
+mount again with mount -a
+
+Check the results with df -h 
 
 
+### 18. Configure recommended tuned profile. 
 
+Install tuned package, enable and start. 
+
+tuned-adm recommend gets the recommended profile
+
+tuned-adm profile virtual-guest sets the recommended profile. 
+
+Run tuned-adm active to verify the profile. 
+
+
+### 19. 
 
 
 
