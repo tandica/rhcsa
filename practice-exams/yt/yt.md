@@ -205,7 +205,55 @@ tuned-adm profile virtual-guest sets the recommended profile.
 Run tuned-adm active to verify the profile. 
 
 
-### 19. 
+### 19. build an application that prints a message when logged in as ablerate user. 
+
+Create a script file in the location /usr/local/bin/rhcsa
+
+echo the message 
+
+```bash
+#!/bin/bash
+
+echo "Welcome"
+```
+
+Update permissions to this script (chmod 755)
+
+In the users /home/username/bash_profile, put the file path of the script at the end after the if loop. 
+
+
+### 20/21. containers 
+
+start as a non-root user using ssh, not su!!!
+
+download container file from a specified location
+
+wget http://containerfile
+
+build the image :
+
+podman build -t imgname .
+
+create a container with the image build that automatically mounts 2 host directories to container directories: 
+
+create the host directories
+
+run the container
+
+podman run -d --name mycontainer -v /hostdir1:/contdir1:Z -v /hostdir2:/contdir2:Z imagename
+
+confirm it to run as systemd service:
+
+enable linger 
+
+loginctl enable-linger username 
+
+create systemd user folder and cd into it 
+
+mkdir -p ~/.config/systemd/user 
+
+in this folder run 
+podman generate systemd --name name --files 
 
 
 
