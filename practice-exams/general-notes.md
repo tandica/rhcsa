@@ -48,7 +48,7 @@ To verify the changes, create a new user, then run `chage -l username`.
   - `podman run`
   - for bind-mounting, ALWAYS use :Z at the end of the repo defn for SELinux labelling
     - /hostdir:/containerdir
-5. Add the port and http service to the firewall and reload it 
+5. **Add the port and http service to the firewall and reload it**
 6. Test changes with `curl`
 
 <br>
@@ -84,3 +84,45 @@ To verify the changes, create a new user, then run `chage -l username`.
 ## To set a user's home directory to something
 
 1. useradd command with **-m** and **-d** options to specify the home path.
+
+<br>
+
+## To create shared group directories 
+
+1. Create the groups and their correspondinf directories
+2. Change the owner (`chown`) of the directories to be their corresponding group 
+3. Set the GID permissions (`chmod 2770`)
+4. Set the sticky bit on the directories `chmod +t` if required
+
+<br>
+
+## Create a swap partition
+
+1. Create a partition with `fdisk` with the typ set to swap
+2. Make it to a swap fs `mkswap /dev/path`  
+3. Turn the swap on `swapon /dev/path`
+4. **Make it persistent by mounting it by the UUID in */etc/fstab***
+
+<br>
+
+## Resize (add space to) existing lv that has no space left
+1. Check how much space you have with `lsblk` 
+2. Create a partition in which ever hard disk you have space with `fdisk` and set the type to LVM
+3. On that partition, create a physical volume
+4. Use that physical volume to do `vgextend` to extend the existing volume group 
+5. Extend the logical volume with `lvextend -r ...`.
+  - Make sure to include the -r option to extend the file system at the same time, otherwise you'll have to use another command to do it depending on what file system is used.
+
+<br>
+
+## Find files by a user and cp them to a directory
+1. Make the destination directory
+2. Use the `find` command:
+  - **-user** option 
+  - **-type f** option for files 
+  - **-exec** to do a task with the output of files
+  - `cp --parents` copy the files and maintain directory structure
+  - **{}** to accept the output of the find
+  - specify the destination directory
+  - **\;** closes the script 
+  - *Ex:* `find / -user linda -type f -exec cp --parents {} /tmp/lindafiles/ \;`

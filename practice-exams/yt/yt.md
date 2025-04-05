@@ -167,13 +167,13 @@ verify the mount with df -h
 
 ### 17. create a swap partition of 400mb and make it available permanently  
 
-Create a new partition in the disk with fdisk. 
+Create a new partition in the disk with `fdisk`. 
 
 Set the type to "Linux swap" with 82. 
 
-Make it into a swap with mkswap /dev/sb2. 
+Make it into a swap with `mkswap /dev/sb2`. 
 
-Turn it on with swapon /dev/sb2
+Turn it on with `swapon /dev/sb2`
 
 To make it permanent, mount it with the uuid you see when running blkid. 
 - use "swap" as a mount point and as the file system 
@@ -254,23 +254,4 @@ mkdir -p ~/.config/systemd/user
 
 in this folder run 
 podman generate systemd --name name --files 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
