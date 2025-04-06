@@ -181,7 +181,7 @@ find / -user linda -type f -exec cp --parents {} /tmp/lindafiles/ \;
 
 <br>
 
-### 10. Create user vicky with the custom UID 2008.
+### 11. Create user vicky with the custom UID 2008.
 
 ```bash
 useradd vicky -u 2008 
@@ -189,6 +189,102 @@ useradd vicky -u 2008
 
 <br>
 
-### 11. Install a web server and ensure that it is started automatically.
+### 12. Install a web server and ensure that it is started automatically.
+
+Install httpd, enable and start it:
+```bash
+dnf install -y httpd
+
+systemctl enable --now httpd
+
+# Check the status:
+systemctl status httpd
+```
+
+Add the http service to the firewall permanently:
+```bash
+firewall-cmd --add-service=http --permanent 
+
+firewall-cmd --reload
+```
+
+Test that it's working by adding an index.html to /var/www/html and doing `curl`:
+```bash
+vim /var/www/html/index.html
+
+curl http://localhost:80
+```
+
+<br>
+
+### 13. Configure a container that runs the docker.io/library/mysql:latest image and ensure it meets the following conditions
+#### a. It runs as a rootless container in the user linda account.
+#### b. It is configured to use the mysql root password password.
+#### c. It bind mounts the host directory /home/student/mysql to the container directory /var/lib/mysql.
+#### d. It automatically starts through a systemd job, where it is not needed for user linda to log in.
 
 
+First of all, i have to log in as linda and ensure the container is ran as as systemd user. Enable the linger for this user
+
+the contsiner needs an environment variable 
+
+1. install container-tools as root then switch the user 
+2. create the directories
+1. pull the image 
+
+
+Install container-tools, which includes podman:
+```bash
+dnf install -y container-tools
+```
+
+Create the host directory inside of /home/linda and ensure that linda is the owner for all:
+```bash
+mkdir -p /home/student/mysql
+
+chown -R linda:linda /home/student/mysql
+```
+
+As the user linda, pull the specified image:
+```bash
+podman pull docker.io/library/mysql:latest
+
+# Verify it's there
+podman images
+```
+
+Run the image, keeping in mind the question requirements:
+```bash
+podman run -d --name mysql -e MYSQL_ROOT_PASSWORD=password -v /home/student/mysql:/var/lib/mysql:Z docker.io/library/mysql:latest 
+
+# Verify the cotnaienr is up
+podman ps
+```
+
+Run the container as a Systemd service:
+
+Enable linger for the user:
+```bash
+loginctl enable-linger linda
+```
+
+Create this directory in user linda's home and go into it:
+```bash
+mkdir -p ~/.config/systemd/user
+
+cd ~/.config/systemd/user
+```
+
+Generate the Systemd service files:
+```bash
+podman generate systemd --name mysql --files
+```
+
+Reload the daemon and start the service (as a user for both):
+```bash
+systemctl --user daemon-relaod
+
+systemctl --user enable --now 
+
+systemctl --user status container-mysql.service
+```
