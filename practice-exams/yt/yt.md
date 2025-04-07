@@ -65,7 +65,7 @@ to test it, you can do curl server.url.com:82 and see if any output is there
 
 ### 4. groups, users and group memberships 
 
-add a secondary group for a new user : useradd -G sysadm harry
+add a secondary group for a new user : `useradd -G sysadm harry`
 
 make user have no access to interactive shell: `useradd jon -s /sbin/nologin`
 

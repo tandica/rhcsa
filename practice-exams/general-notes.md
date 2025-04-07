@@ -2,6 +2,17 @@
 
 <br>
 
+## Man pages 
+1. `man 5 crontab` has date/time configs
+2. `seinfo -t | grep ssh` shows context types for ssh. 
+
+
+## General
+1. To change permissions for a specific user, use `setfacl`
+
+
+<br>
+
 ## To configure local repo and mount it
 1. Create the directory you want to point it on `mkdir /mount-point`
 2. Create the repo files for AppStream and BaseOS in */etc/yum.repos.d*
@@ -77,11 +88,15 @@ To verify the changes, create a new user, then run `chage -l username`.
 ## To use autofs to automount home directories of users when they access them
 
 1. Install autofs
-2. Ensure users have the appropriate home directories 
+2. Ensure the same users exist with the same UIDs
+3. Create a /users directory for the mount point
+4. Edit the */etc/auto.master* with the mount point and secondary file
+5. Create the secondary file /etc/auto.users and add the * directory which represents a wildcard, rw permissions, the server:directories/& symbol at the end
+6. Start and enable autofs
 
 <br>
 
-## To set a user's home directory to something
+## To set a user's home directory to something else
 
 1. useradd command with **-m** and **-d** options to specify the home path.
 
@@ -98,7 +113,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 ## Create a swap partition
 
-1. Create a partition with `fdisk` with the typ set to swap
+1. Create a partition with `fdisk` with the type set to swap
 2. Make it to a swap fs `mkswap /dev/path`  
 3. Turn the swap on `swapon /dev/path`
 4. **Make it persistent by mounting it by the UUID in */etc/fstab***
@@ -126,3 +141,9 @@ To verify the changes, create a new user, then run `chage -l username`.
   - specify the destination directory
   - **\;** closes the script 
   - *Ex:* `find / -user linda -type f -exec cp --parents {} /tmp/lindafiles/ \;`
+
+<br>
+
+## Set up the network config
+1. Use `nmtui` 
+2. Restart the NetworkManager
