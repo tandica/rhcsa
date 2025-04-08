@@ -283,3 +283,169 @@ Test it:
 ```bash
 curl http://localhost.example.com
 ```
+
+<br>
+
+## 10. Install a FTP server and configure anonymous download from /var/ftp/pub catalog.
+
+Install and enable the ftp service.
+
+```bash
+dnf install -y vsftpd
+
+systemctl enable --now vsftpd
+```
+
+Add the vsftpd service to the firewall:
+```bash
+firewall-cmd --add-service=ftp --permanent
+
+firewall-cmd --reload
+```
+
+Edit the vsftpd config */etc/vsftpd/vsftd.conf* file. In `anonymous_enable` line, type YES. 
+```bash
+anonymous_enable=YES
+```
+
+Restart the servcie:
+```bash
+systemctl restart vsftpd
+```
+
+Create a test file in */var/ftp/pub*.
+
+Test it:
+```bash
+ftp localhost
+# Trying ::1...
+# Connected to localhost (::1).
+# 220 (vsFTPd 3.0.5)
+# Name (localhost:root): anonymous
+# 331 Please specify the password.
+# Password:
+# 230 Login successful.
+# Remote system type is UNIX.
+# Using binary mode to transfer files.
+ftp> cd pub
+250 Directory successfully changed.
+ftp> get test.txt
+local: test.txt remote: test.txt
+# 229 Entering Extended Passive Mode (|||30772|)
+# 150 Opening BINARY mode data connection for test.txt (0 bytes).
+# 226 Transfer complete.
+```
+
+<br>
+
+## 11. Find the rows that contain xyz from file /etc/testing, and write it to the file/tmp/testing.
+
+Create the file for the output: `touch /tmp/testing`
+
+Use `grep` to find the characters and output them to the file:
+```bash
+grep "xyz" /etc/testing > /tmp/testing
+```
+
+Verify the output is there:
+```bash
+cat /tmp/testing
+```
+
+<br>
+
+## 12. NFS Wilcard 
+
+### Server 2:
+- Create a group called 'engineers' with GID 6000
+- Create three users: 'alex', 'sam', and 'taylor' with UIDs 6001, 6002, and 6003 respectively
+- Add all three users to the 'engineers' group
+- Create a directory structure at /exports/home where each user will have their home directory
+- Set appropriate ownership and permissions on these directories
+- Configure the NFS server to export /exports/home with read/write access to server1
+- Ensure the NFS service starts automatically after reboot
+
+### Server 1:
+- Create the same group 'engineers' with GID 5000
+- Create the same three users with matching UIDs
+- Configure autofs to automatically mount the users' home directories from the NFS server
+- Use a wildcard configuration that will map any access to /rhome/* to the appropriate user directory on the NFS server
+- Set the timeout for these mounts to 300 seconds (5 minutes)
+- Ensure the autofs service starts automatically after reboot
+
+Success criteria:
+When users log in on the client system, their home directory should be automatically mounted from the NFS server
+For example, when user 'alex' accesses /rhome/alex, the directory should be automatically mounted from nfs-server:/exports/home/alex
+The mounts should persist until 5 minutes of inactivity, then automatically unmount
+File creation and permissions should work correctly across both systems
+Changes made on either system should be immediately visible on the other
+
+--- 
+
+<br>
+
+**Server2:**
+
+Ensure nfs-utils and autofs are installed and nfs, rpc-bind and mountd are added tot he firewall. 
+
+```bash
+groupadd engineers -g 6000
+useradd alex -G engineers -u 6001
+useradd sam -G engineers -u 6002
+useradd taylor -G engineers -u 6003
+```
+
+Create directory structure and apply appropriate permissions:
+```bash
+mkdir -p /exports/home/alex
+mkdir -p /exports/home/sam
+mkdir -p /exports/home/taylor
+
+chown -R alex:alex /exports/home/alex/
+chown -R sam:sam /exports/home/sam/
+chown -R taylor:taylor /exports/home/taylor/
+
+chmod 770 -R /exports/home/taylor/
+chmod 770 -R /exports/home/sam/
+chmod 770 -R /exports/home/alex/
+```
+
+Edit *etc/exports* file. Add:
+`/exports/home	*(rw,no_root_squash)`
+
+Export it: `exportfs -r` and verify: `showmount -e`.
+
+Server1:
+
+Create the same group and users with the same GID and UIDs:
+```bash
+groupadd engineers -g 6000
+useradd alex -G engineers -u 6001
+useradd sam -G engineers -u 6002
+useradd taylor -G engineers -u 6003
+```
+
+Ensure nfs-utils and autofs are installed and nfs, rpc-bind and mountd are added tot he firewall. 
+
+Create the mount point directory: `mkdir /rhome`. 
+
+Edit the /etc/auto.master file and add:
+```bash
+/rhome/   /etc/auto.rhome   --timeout=300
+```
+
+Create and add to the secondary file:
+```bash
+*   -rw   server2:/exports/home/&
+```
+
+Here, make sure the wildcard elements are added 
+- * for the reference directory 
+- **&** to apply to all directories
+
+Restart the autofs service and test the changes. 
+
+<br>
+
+## 13. Configure the verification mode of your host account as LDAP. It can login successfully through ldapuser. The password is set as "password". The user has no host directory.
+

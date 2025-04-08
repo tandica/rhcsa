@@ -147,3 +147,13 @@ To verify the changes, create a new user, then run `chage -l username`.
 ## Set up the network config
 1. Use `nmtui` 
 2. Restart the NetworkManager
+
+<br>
+
+## FTP service configuration
+1. Install and enable ftp service (vsftp)
+2. Add the ftp service to the firewall
+3. Edit the vsftpd config file, allow anonymous download
+4. If you need to set a custom path for the download, use `anon_root=/path`
+5. Restart the service
+6. Create a test file in */var/ftp/pub/* and try to access it with `ftp localhost`. The username should be "anonymous". 
