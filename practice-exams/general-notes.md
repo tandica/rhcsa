@@ -9,6 +9,7 @@
 
 ## General
 1. To change permissions for a specific user, use `setfacl`
+2. Force delete a container 
 
 
 <br>
@@ -34,6 +35,12 @@ gpgcheck=0
     - `ro,auto`
 6. Check for errors in the mount: `mount -a`
 7. Verify the files are in the mount-point: `ls -l /mount-point`. `reboot` to verify persistence.
+
+<br>
+
+## Enable root login via SSH
+1. Edit the /etc/ssh/sshd_config file in the server you want access to
+2. Set PermitRootLogin to yes
 
 <br>
 
@@ -157,3 +164,22 @@ To verify the changes, create a new user, then run `chage -l username`.
 4. If you need to set a custom path for the download, use `anon_root=/path`
 5. Restart the service
 6. Create a test file in */var/ftp/pub/* and try to access it with `ftp localhost`. The username should be "anonymous". 
+
+<br>
+
+## Tuned
+1. Install, enable and start tuned
+2. `tuned-adm recommend` gets the recommended profile
+3. `tuned-adm profile xxx` sets the profile
+4. Verify with `tuned-adm active`
+
+<br>
+
+## Time synchronization with another server
+1. Install, enable and start the chrony service
+2. Edit the /etc/chrony.conf file
+- Comment out the pool line 
+- Add "server" then the server name. Keep the iburst at the end 
+3. Add **ntp** to the firewall 
+4. Restart the chronyd service
+5. Verify the changes with `chronyc source`

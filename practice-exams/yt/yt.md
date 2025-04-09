@@ -87,6 +87,8 @@ change directory permissions to only be accessed by members of the group and no 
 
 ### 6. make a cronjob 
 
+Use crontab -e and reference the time definitions with `man 5 crontab`
+
 ### 7. nfs
 
 ### 9. Give user specific permissions to a file/directory
@@ -119,7 +121,7 @@ restart and enable chronyd service
 
 ### 11. find files created by a certain user and copy them into a directory 
 
-find / -user eddi -exec cp -r {} /some-dir \;
+find / -user eddi type -f -exec cp --parents {} /some-dir \;
 
 
 ### 12. find all strings "xxx" from a directory and copy them to a location 
@@ -175,7 +177,7 @@ Make it into a swap with `mkswap /dev/sb2`.
 
 Turn it on with `swapon /dev/sb2`
 
-To make it permanent, mount it with the uuid you see when running blkid. 
+To make it permanent, mount it in */etc/fstab* with the UUID you see when running blkid. 
 - use "swap" as a mount point and as the file system 
 
 Type swapon -s to verify the changes 
@@ -205,7 +207,7 @@ tuned-adm profile virtual-guest sets the recommended profile.
 Run tuned-adm active to verify the profile. 
 
 
-### 19. build an application that prints a message when logged in as ablerate user. 
+### 19. build an application that prints a message when logged in as a certain user. 
 
 Create a script file in the location /usr/local/bin/rhcsa
 

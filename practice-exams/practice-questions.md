@@ -447,5 +447,238 @@ Restart the autofs service and test the changes.
 
 <br>
 
-## 13. Configure the verification mode of your host account as LDAP. It can login successfully through ldapuser. The password is set as "password". The user has no host directory.
+## 13. LVM Creation and Resizing (Add)
 
+### Use a 1-GiB disk/partition (/dev/sdX1) to create a volume group named vgtest with 4-MiB physical extents. 
+
+### In vgtest, create a 120-extent logical volume named lvtest. Format it with XFS and mount it persistently on /groups.
+
+### Add 60 extents to lvtest and ensure the XFS filesystem resizes accordingly.
+
+Create a partition in the hard disk with `fdisk`. Set the size to 1GiB.
+
+Make this partition a physical volume:
+```bash
+pvcreate /dev/xxx
+```
+
+Create a volume group in the physical volume and set the size and name:
+```bash
+vgcreate -s 4MiB vgtest /dev/xxx
+```
+
+Create the LVM with the desired size and set the filesystem:
+```bash
+lvcreate -l 120 -n lvtest vgtest
+
+mkfs.xfs /dev/vgtest/lvtest
+```
+
+Create the mount point and add to the */etc/fstab* file:
+```bash
+mkdir /mnttest
+
+# Add to /etc/fstab:
+/dev/vgtest/lvtest   /mnttest    defaults    0 0
+
+# Mount the files
+mount -a
+```
+
+Increase the LVM size and the filesystem (with **-r**): 
+```bash
+lvextend -l +60 -r /dev/vgtest/lvtest
+```
+
+Verify the changes were applied:
+```bash
+lvs 
+
+df -h
+```
+
+<br>
+
+## 14. Resize existing LVM (Add)
+
+### Add 300mb of space to lvprac lvm.
+
+```bash
+lvextend -l +300M -r /dev/vgprac/prac
+```
+
+<br>
+
+## 13. LVM Creation and Resizing (Add)
+
+Create a 1G partition in the existing disk. 
+
+Unmount existing partitions and swapoff any swaps. 
+
+If fdisk is still giving an error, use `vgchange -an vgname` to temporarily disable the volumegroup. Reactivate it with `vgchange -ay vgname` after the new partition is created.
+
+Create pv, vg and lv:
+```bash
+pvcreate /dev/nvme0n3p3
+
+vgcreate -s 4MiB vgr
+
+lvcreate -L 300M -n lvr vgr
+```
+
+Make it into ext4 file system - use the file path with the volume group and lv name:
+```bash
+mkfs.ext4 /dev/vgr/lvr
+```
+
+Increase the size by 200mb:
+```bash
+lvextend -L +200M -r /dev/vgr/lvr
+```
+
+Make you the **+** sign is there to specify increase!!!
+
+<br>
+
+## 14. Resize existing LVM (Reduce)
+
+Reduce the above lvm by 150MB. 
+```bash
+lvreduce -L -150M -r /dev/vgr/lvr
+```
+
+<br>
+
+## 15. Enable root login via ssh
+
+Edit the */etc/ssh/sshd_config* file. Set PermitRootLogin to yes:
+```bash
+PermitRootLogin yes
+```
+
+<br>
+
+## 16. Create a script that prints a message on login as a certain user. 
+
+Create the script in */usr/local/bin*
+
+```bash
+vim /usr/local/bin/welcome.sh
+
+# Add the below
+echo "Welcome tom!"
+
+# Give the script the right permissions:
+chmod 755 /usr/local/bin/welcome.sh
+```
+
+Add the path to the script in the user's bash_profile file, after the if loop (*/home/tom/bash_profile*).
+
+<br>
+
+## 17. Configure recommended tuned profile
+
+Install, enable and start `tuned`.
+
+Get the recommended tuned profile:
+```bash
+tuned-admn recommend
+```
+
+Set the recommended profile and verify:
+```bash
+tuned-admn profile virtual-guest
+
+tuned-adm active
+```
+
+<br>
+
+## 18. Time Synchronization with another server
+
+Install, enable and start chrony service.
+
+Edit the /etc/chrony.cond file
+- comment out the pool line
+- put the server name and keep the iburst at the end
+```bash
+server server1 iburst
+```
+
+Add ntp to the firewall:
+```bash
+firewall-cmd --add-service=ntp
+```
+
+Restart chronyd serveice. 
+
+Verify the synchronization (look for *):
+```bash
+chronyc sources
+```
+
+<br>
+
+## 19. Create a container that runs an HTTP server. Ensure that it mounts the host directory /httproot on the directory /var/www/html. Configure this container such that it is automatically started on system boot as a system user service.
+
+Install container-tools. 
+
+Run this container as user tom...make sure you `ssh` as that user, not `su`.
+
+Create the host directory mentioned:
+```bash
+mkdir /httproot
+```
+
+**Make sure the directory is owned by the same user you're logged in with:**
+```bash
+chown tom:tom /httproot
+```
+
+Pull the mentioned image:
+```bash
+podman pull docker.io/xxx
+```
+
+Run the container (**don't forget the port for http service and the :Z for selinux!!!**):
+```bash
+podman run -d --name httpserver -p 8080:80 -v /httproot:/var/www/html:Z docker.io/xxx
+```
+
+Verify it was created `podman ps -a`. 
+
+Add http and the ports to the firewall:
+```bash
+firewall-cmd --add-service=http --permanent
+firewall-cmd --add-port=80 --permanent
+firewall-cmd --add-port=8080 --permanent
+
+firewall-cmd --reload
+```
+
+For running as a systemd user service on boot:
+
+Enable linger for the user:
+```bash
+systemctl enable-linger tom
+```
+
+Create the directory and `cd` into it: `mkdir ~/.config/systemd/user` 
+
+Generate the systemd unit files:
+```bash
+systemctl generate systemd --name httpserver --files
+```
+
+Reload the daemona and enable/start the service:
+```bash
+systemctl --user daemon-reload
+
+systemctl --user enable --now container-httpserver.service
+```
+
+Check the status of the service and you can reboot and check the container started at the same time as the boot with `podman ps -a`.
+
+<br>
+
+## Make ssh service listen on another port 
