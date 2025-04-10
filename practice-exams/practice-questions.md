@@ -682,3 +682,34 @@ Check the status of the service and you can reboot and check the container start
 <br>
 
 ## Make ssh service listen on another port 
+
+Change the port number in the */etc/sshd_config* file.
+
+Restart the sshd service to see the error. 
+
+Search for allowed SELinux ports for ssh:
+```bash
+semanage port -l | grep ssh
+```
+
+Notice the new port number isn't listed there...
+
+Add the port number to be allowed by SELinux: 
+```bash
+semanage -a -t ssh_port_t -p 222 tcp
+```
+
+Get this command in `man semanage port`.
+
+<br>
+
+## 20. Configure a container that runs the docker.io/library/mysql:latest image and ensure it meets the following conditions:
+#### a. It runs as a rootless container in the user linda account.
+#### b. It is configured to use the mysql root password password.
+#### c. It bind mounts the host directory /home/student/mysql to the container directory /var/lib/mysql.
+#### d. It automatically starts through a systemd job, where it is not needed for user linda to log in.
+
+
+<br>
+
+## 21. Configure AppStream and BaseOS repos from a link 

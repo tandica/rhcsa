@@ -5,12 +5,12 @@
 ## Man pages 
 1. `man 5 crontab` has date/time configs
 2. `seinfo -t | grep ssh` shows context types for ssh. 
+3. `man semanage port` gives examples of the command to add ports for SELinux
 
 
 ## General
 1. To change permissions for a specific user, use `setfacl`
 2. Force delete a container 
-
 
 <br>
 
@@ -78,6 +78,10 @@ To verify the changes, create a new user, then run `chage -l username`.
 3. Inside the /user folder you created, run `podman generate systemd --name containername --files` to generate the service file
 4. Reload the daemon with the --user flag `systemctl --user daemon-reoad`
 5. Start and enable the service file with the user flag `systemctl --user enable --now containername.service`
+
+<br>
+
+## Create a container with env variables (mysql)
 
 <br>
 
