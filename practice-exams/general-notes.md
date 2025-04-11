@@ -10,7 +10,8 @@
 
 ## General
 1. To change permissions for a specific user, use `setfacl`
-2. Force delete a container 
+2. Force delete a container: `podman rm -f`
+3. Ping the other server on the exam with `ping` to test connectivity
 
 <br>
 
@@ -187,3 +188,10 @@ To verify the changes, create a new user, then run `chage -l username`.
 3. Add **ntp** to the firewall 
 4. Restart the chronyd service
 5. Verify the changes with `chronyc source`
+
+<br>
+
+## Connect 2 servers
+1. Configure the required networking with `nmtui`
+2. Edit the /etc/hosts file on each server and add a line for the respective server along with its ip address
+- `192.168.1.20   server2.example.com   server2`

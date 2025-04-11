@@ -712,4 +712,76 @@ Get this command in `man semanage port`.
 
 <br>
 
-## 21. Configure AppStream and BaseOS repos from a link 
+## 21. Configure your system with the following repos:
+#### http:///content/rhel9.0/x86_64/dvd/Appstream
+#### http:///content/rhel9.0/x86_64/dvd/BaseOS
+
+Search for where these files exist, usually on the DVD/ISO file. Should be somwhere like /dev/sr0.
+
+Create the mount directory: `mkdir /repos`.
+
+Create the repo files in */etc/yum.d.repos* for both AppStreaqm and BaseOS. Put something like this in both files:
+```bash
+[AppStream]
+name=AppStream
+baseurl=file:///content/rhel9.0/x86_64/dvd/Appstream
+enabled=1
+gpgcheck=0
+```
+
+Mount it persistent in */etc/fstab*:
+`/dev/sr0    /repos    iso9660   defaults  0 0`
+
+You can test with `dnf repolist` or `dnf search`.
+
+<br>
+
+## 22. Networking
+
+### Configure the following network settings on interface ens192:
+#### - IPv4: 192.168.100.50/24 with gateway 192.168.100.1
+#### - IPv6: 2001:db8:acad::100/64 with gateway 2001:db8:acad::1
+
+### Set the hostname to rhcsa-lab.workstation.example.com
+
+### Configure DNS resolution with:
+#### - Primary nameserver: 192.168.100.10
+#### - Secondary nameserver: 2001:db8:acad::10
+
+### DNS search domain: workstation.example.com
+
+### Ensure network settings persist after reboot
+
+### Configure firewall rules to:
+#### - Allow HTTP/HTTPS traffic
+#### - Block all other incoming traffic except SSH from 192.168.100.0/24
+
+<br>
+
+## Networking 2
+
+### Configure the server with the following network settings:
+- Primary interface (ens192) with static IPv4 address: 172.16.50.25/24
+- Add a secondary IPv4 address on the same interface: 172.16.50.26/24
+- Configure an IPv6 address: 2001:db8:acad:1::25/64
+- Set the hostname to: webdev.company.local
+- Configure the default gateway: 172.16.50.1
+- Configure DNS servers: 172.16.50.5 and 8.8.8.8
+
+### Ensure all network configurations persist after system reboot.
+
+### Configure local hostname resolution by adding the following entries to the appropriate file:
+- 172.16.50.25 webdev.company.local webdev
+- 172.16.50.10 storage.company.local storage
+- 172.16.50.15 database.company.local db
+
+### Configure the Apache web server to:
+- Start automatically at system boot
+- Listen only on the primary IP address (172.16.50.25) on port 80
+
+### Configure the system firewall to:
+- Allow incoming HTTP connections (port 80) only to the primary IP address
+- Allow incoming SSH connections (port 22) from the 172.16.50.0/24 network only
+- Block all other incoming traffic
+- Make these firewall settings persistent
+
