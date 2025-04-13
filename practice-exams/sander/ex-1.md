@@ -268,7 +268,7 @@ Edit the sudoers file with `visudo` and add the following:
 
 Restrict the user to only be able to change their password upon login:
 ```bash
-usermod -s /bin/passwd bob
+usermod -s /usr/bin/passwd bob
 ```
 <br>
 

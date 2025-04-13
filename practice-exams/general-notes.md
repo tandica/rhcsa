@@ -6,7 +6,9 @@
 1. `man 5 crontab` has date/time configs
 2. `seinfo -t | grep ssh` shows context types for ssh. 
 3. `man semanage port` gives examples of the command to add ports for SELinux
-
+4. Firewall custom exceptions - use rich rules: `man firewalld.richLanguage`
+5. `man test` and `man bash` (conditional expression) for scripting options for file
+6. Loops examples: `cat /etc/profile | grep for`
 
 ## General
 1. To change permissions for a specific user, use `setfacl`
@@ -66,7 +68,8 @@ To verify the changes, create a new user, then run `chage -l username`.
 4. Run the container with the necessary parameters
   - `podman run`
   - for bind-mounting, ALWAYS use :Z at the end of the repo defn for SELinux labelling
-    - /hostdir:/containerdir
+    - /hostdir:/containerdir:Z
+  - dont forget to add the image at the end of the command!!!
 5. **Add the port and http service to the firewall and reload it**
 6. Test changes with `curl`
 
@@ -82,7 +85,18 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 <br>
 
-## Create a container with env variables (mysql)
+## Create a (rootless) container with env variables (mysql) & start it as a system user service on boot
+
+1. Start as a non-root user!! Use ssh to change to it
+2. Create the host directory
+3. Pull the image and verify
+4. Run the container with `podman run`
+- need to add env variables for specifying the root pw using **-e** option
+  - `... -e MYSQL_ROOT_PASSWORD=password ...`
+5. Verify its working, then create the *~/.config/systemd/user* file for the systemd stuff
+6. Enable linger for the current user
+7. Generate the systemd files
+8. Reload the daemon and enable/start the service with the user flag
 
 <br>
 
@@ -137,8 +151,9 @@ To verify the changes, create a new user, then run `chage -l username`.
 2. Create a partition in which ever hard disk you have space with `fdisk` and set the type to LVM
 3. On that partition, create a physical volume
 4. Use that physical volume to do `vgextend` to extend the existing volume group 
-5. Extend the logical volume with `lvextend -r ...`.
+5. Extend the logical volume with `lvextend -r ... /dev/vg/lv`.
   - Make sure to include the -r option to extend the file system at the same time, otherwise you'll have to use another command to do it depending on what file system is used.
+  - ensure to provide the correct file path for the lvm (/dev/rhel/root --> /dev/vg/lv)
 
 <br>
 
@@ -195,3 +210,40 @@ To verify the changes, create a new user, then run `chage -l username`.
 1. Configure the required networking with `nmtui`
 2. Edit the /etc/hosts file on each server and add a line for the respective server along with its ip address
 - `192.168.1.20   server2.example.com   server2`
+
+<br>
+
+## Allow a user to run only one command
+
+1. Edit the sudoers file with `visudo`
+  - copy the same structure as the root, but replace the third column with NOPASSWD: /usr/bin/cmd
+  - cmd should be the command, you can get the pull path using `which`
+2. Modify the user and specify the path to the cmd allowed
+  - `usermod -s /usr/bin/passwd` username to allow the user only to change their password
+
+<br>
+
+## Build container image
+
+<br>
+
+## Services which might be needed:
+- nfs-utils & autofs
+- containter-tools
+- httpd
+- vsftpd
+- chronyd
+- mandb 
+
+<br>
+
+## Scripting
+- To assign the output of a command to a variable, use $(cmd)
+  - LOGGED_IN=$(users)
+- for `if` statement, don't use sqaure brackets [] for running commands
+  - only use it for evaluations like if `"$1" == "$2"`
+  - also can be used for **-f** and **-z** options
+    - **-f** checks is a file exists and its regular
+    - **-z** checks if a string is empty
+  - square brackets shouldn't be mixed with pipes | 
+- always put double quotes around variables and arguments: "$1" "$LOGGED_IN"

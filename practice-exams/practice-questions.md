@@ -704,10 +704,11 @@ Get this command in `man semanage port`.
 <br>
 
 ## 20. Configure a container that runs the docker.io/library/mysql:latest image and ensure it meets the following conditions:
-#### a. It runs as a rootless container in the user linda account.
+#### a. It runs as a rootless container in the user tandi account.
 #### b. It is configured to use the mysql root password password.
 #### c. It bind mounts the host directory /home/student/mysql to the container directory /var/lib/mysql.
 #### d. It automatically starts through a systemd job, where it is not needed for user linda to log in.
+
 
 
 <br>
@@ -756,6 +757,16 @@ You can test with `dnf repolist` or `dnf search`.
 #### - Allow HTTP/HTTPS traffic
 #### - Block all other incoming traffic except SSH from 192.168.100.0/24
 
+Do most with `nmtui`
+
+For the SSH blocking and accepting from only one ip address, use "rich rules", an option of `firewall-cmd`.
+
+SHould look like: 
+```bash
+firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.100.0/24" service name="ssh" accept'
+```
+
+
 <br>
 
 ## Networking 2
@@ -784,4 +795,31 @@ You can test with `dnf repolist` or `dnf search`.
 - Allow incoming SSH connections (port 22) from the 172.16.50.0/24 network only
 - Block all other incoming traffic
 - Make these firewall settings persistent
+
+Do with `nmtui`. 
+
+
+<br>
+
+## Scripting
+
+### Create a script that takes a username as an argument and reports whether that user is currently logged in.
+
+```bash
+#!/bin/bash
+
+LOGGED_IN_USER=$(users)
+
+if echo "$LOGGED_IN_USER" | grep -wq "$1"; then
+ 	echo "Usr $1 is logged in"
+else
+	echo "That user is not logged in"
+fi	
+
+exit 0 
+```
+
+For `grep`:
+- **-q** makes sure grep doesn't output anything
+- **-w** allows for a match for words
 
