@@ -225,6 +225,21 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 ## Build container image
 
+1. Locate the Containerfile and `cat` it to verify the content
+2. Navigate to the directory and build the image
+- `podman build -t name:version .` 
+  - -t option give the image a name and version
+  - you must specify the directory where the image is, in this cae its "."
+  - otherwise specify the path to the Containerfile with -f 
+
+<br>
+
+## Set timezone and NTP
+
+1. Install chronyd service
+2. Use `timedatectl set-timezone America/xxx`
+3. Set NTP: `timedatectl set-ntp 1`
+
 <br>
 
 ## Services which might be needed:
@@ -247,3 +262,6 @@ To verify the changes, create a new user, then run `chage -l username`.
     - **-z** checks if a string is empty
   - square brackets shouldn't be mixed with pipes | 
 - always put double quotes around variables and arguments: "$1" "$LOGGED_IN"
+
+<br>
+
