@@ -40,24 +40,24 @@ name=base
 baseurl=http://ex/AppStream
 gpgcheck=0
 
-check if things are running 
-yum repolist
+Check if things are running:
+`yum repolist`
 
 ### 3. selinux httpd issues on port 82
 
 https service is having issues. check the status of it 
 
-systemctl status httpd 
+`systemctl status httpd` 
 
 try restarting 
 
-systemctl restart httpd
+`systemctl restart httpd`
 
-check the port context of port 80, which is a known port of httpd: semanage port -l | grep 80 
+check the port context of port 80, which is a known port of httpd: `semanage port -l | grep 80` 
 
 there's no port 82 in that list of the http_port_t 
 
-add the correct context to port 82: semanage port -a -t http_port_t tcp -p 82
+add the correct context to port 82: `semanage port -a -t http_port_t tcp -p 82`
 
 restart httpd service and enable it to be safe 
 
@@ -65,14 +65,14 @@ to test it, you can do curl server.url.com:82 and see if any output is there
 
 ### 4. groups, users and group memberships 
 
-add a secondary group for a new user : `useradd -G sysadm harry`
+Add a secondary group for a new user : `useradd -G sysadm harry`
 
-make user have no access to interactive shell: `useradd jon -s /sbin/nologin`
+Make user have no access to interactive shell: `useradd jon -s /sbin/nologin`
 
-give a group access to add users in the server: edit the config file with visudo. it goes directly to the config file. put `%sysadmin ALL=/usr/bin/useradd`. The % is needed to define the group. find the path of useradd with `which useradd`. 
+Give a group access to add users in the server: edit the config file with **visudo**. it goes directly to the config file. Put `%sysadmin ALL=/usr/bin/useradd`. The % is needed to define the group. Find the path of useradd with `which useradd`. 
 
 
-to give a user the ability to set passwords, without asking for the sudo pw, do this with visudo: `bob ALL=(ALL) NOPASSWD: /usr/bin/passwd`
+To give a user the ability to set passwords, without asking for the sudo pw, do this with visudo: `bob ALL=(ALL) NOPASSWD: /usr/bin/passwd`
 
 To give a user full access: `sally ALL=ALL`
 
@@ -81,9 +81,9 @@ To give a user access to all cmds without sudo password: `sadi ALL=(ALL) NOPASSW
 
 ### 5. create collaborative directory 
 
-make directory owned by a certain group: `chgrp marketing /shared/marketing`
+Make directory owned by a certain group: `chgrp marketing /shared/marketing`
 
-change directory permissions to only be accessed by members of the group and no access for others: `chmod 2770 /shared/marketing`
+Change directory permissions to only be accessed by members of the group and no access for others: `chmod 2770 /shared/marketing`
 
 ### 6. make a cronjob 
 

@@ -8,6 +8,7 @@
 3. `man semanage port` gives examples of the command to add ports for SELinux
 4. Firewall custom exceptions - use rich rules: `man firewalld.richLanguage`
 5. `man test` and `man bash` (conditional expression) for scripting options for file
+  - also has redirection info (2>)
 6. Loops examples: `cat /etc/profile | grep for`
 
 ## General
@@ -29,6 +30,9 @@ baseurl=file:///mount-point
 enabled=1
 gpgcheck=0
 ```
+
+- if you're given a link instead of a local point, just use `baseurl=http://....`
+
 4. Test mount with `mount /dev/source /mount-point`
 5. Add the mount persistently in */etc/fstab*
   - note the file system, if you need to mount an ISO, use filesystem **iso9660**
@@ -236,7 +240,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 ## Set timezone and NTP
 
-1. Install chronyd service
+1. Install, enable and start chronyd service
 2. Use `timedatectl set-timezone America/xxx`
 3. Set NTP: `timedatectl set-ntp 1`
 
@@ -249,6 +253,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 - vsftpd
 - chronyd
 - mandb 
+- **crond** for cron jobs to work!!!
 
 <br>
 
@@ -262,6 +267,8 @@ To verify the changes, create a new user, then run `chage -l username`.
     - **-z** checks if a string is empty
   - square brackets shouldn't be mixed with pipes | 
 - always put double quotes around variables and arguments: "$1" "$LOGGED_IN"
+- declare variables without the $
+  - reference them with the $
 
 <br>
 

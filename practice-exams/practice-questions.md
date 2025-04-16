@@ -769,7 +769,7 @@ firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192
 
 <br>
 
-## Networking 2
+## 23. Networking 2
 
 ### Configure the server with the following network settings:
 - Primary interface (ens192) with static IPv4 address: 172.16.50.25/24
@@ -803,7 +803,7 @@ Do with `nmtui`.
 
 ## Scripting
 
-### Create a script that takes a username as an argument and reports whether that user is currently logged in.
+### 24. Create a script that takes a username as an argument and reports whether that user is currently logged in.
 
 ```bash
 #!/bin/bash
@@ -822,4 +822,27 @@ exit 0
 For `grep`:
 - **-q** makes sure grep doesn't output anything
 - **-w** allows for a match for words
+
+<br>
+
+## 25. Create a cron job for the user linda that runs every day at 3:15 PM. The job should:
+### - Log the message "Daily scan executed" using the logger command
+### - The log message should include a custom tag: SECURITY
+### - The logs should appear in /var/log/messages.
+
+Create script file:
+```bash
+#!/bin/bash
+
+LOG_TAG="SECURITY"
+LOG_MESSAGE="Daily scan executed"
+
+logger -t $LOG_TAG $LOG_MESSAGE >> /var/log/messages
+
+exit 0
+```
+
+Create cron job with `crontab -e`:
+`15 15 * * * /home/tandi/logger-cron.sh`
+
 
