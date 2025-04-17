@@ -91,7 +91,7 @@ Use crontab -e and reference the time definitions with `man 5 crontab`
 
 ### 7. nfs
 
-### 9. Give user specific permissions to a file/directory
+### 9. Give user specific permissions to a file/directory 
 
 Give user ella read/write permissions to the /var/tmp/fstab file:
 

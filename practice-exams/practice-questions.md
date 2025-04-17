@@ -845,4 +845,4 @@ exit 0
 Create cron job with `crontab -e`:
 `15 15 * * * /home/tandi/logger-cron.sh`
 
-
+You can restart crond service after. 

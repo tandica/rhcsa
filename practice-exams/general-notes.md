@@ -10,6 +10,8 @@
 5. `man test` and `man bash` (conditional expression) for scripting options for file
   - also has redirection info (2>)
 6. Loops examples: `cat /etc/profile | grep for`
+7. `man 7 regex` or `man grep` for regex
+8. `man -K text`
 
 ## General
 1. To change permissions for a specific user, use `setfacl`
@@ -26,7 +28,7 @@
 ```vim
 [title]
 name=reponame
-baseurl=file:///mount-point
+baseurl=file:///mount-point/AppStream
 enabled=1
 gpgcheck=0
 ```
@@ -52,11 +54,9 @@ gpgcheck=0
 <br>
 
 ## To set pw properties for new users
-Edit the */etc/.login.defs* file for system-wide configuration.
-
-To verify the changes, create a new user, then run `chage -l username`.
-
-(If you need to set pw properties for existing users, you can use `chage`)
+1. Edit the */etc/login.defs* file for system-wide configuration.
+2. To verify the changes, create a new user, then run `chage -l username`
+- If you need to set pw properties for existing users, you can use `chage`
 
 <br>
 
@@ -109,7 +109,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 1. Create the directories you want to export (/users)
 2. Install nfs-utils
 3. Enable and start nfs-server
-4. Add the nfs, rpc-bind and mountd services to the firewall (permanently)
+4. **Add the nfs, rpc-bind and mountd services to the firewall (permanently)**
 5. Create the /etc/exports file and edit it with the dir to be exported (users), rw permissions and no_root_squash
 6. Export the directory `exportfs -r` and verify it `export -v`
 
@@ -123,6 +123,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 4. Edit the */etc/auto.master* with the mount point and secondary file
 5. Create the secondary file /etc/auto.users and add the * directory which represents a wildcard, rw permissions, the server:directories/& symbol at the end
 6. Start and enable autofs
+7. If not working add the same services as above to the firewall and restart the autofs service!!! 
 
 <br>
 
@@ -134,7 +135,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 
 ## To create shared group directories 
 
-1. Create the groups and their correspondinf directories
+1. Create the groups and their corresponding directories
 2. Change the owner (`chown`) of the directories to be their corresponding group 
 3. Set the GID permissions (`chmod 2770`)
 4. Set the sticky bit on the directories `chmod +t` if required
@@ -147,6 +148,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 2. Make it to a swap fs `mkswap /dev/path`  
 3. Turn the swap on `swapon /dev/path`
 4. **Make it persistent by mounting it by the UUID in */etc/fstab***
+- You don't need a mount directory to mount it here - just type `none` where you type the mount point
 
 <br>
 
@@ -158,6 +160,17 @@ To verify the changes, create a new user, then run `chage -l username`.
 5. Extend the logical volume with `lvextend -r ... /dev/vg/lv`.
   - Make sure to include the -r option to extend the file system at the same time, otherwise you'll have to use another command to do it depending on what file system is used.
   - ensure to provide the correct file path for the lvm (/dev/rhel/root --> /dev/vg/lv)
+
+<br>
+
+## Create a VG with 8MiB extent size and LV with 50 extents and mount it persistently
+1. Create partition for the specifed size with `fdisk` and change the type to lvm
+2. Create a physical volume with the partition `pvcreate /dev/xxx`
+3. Create a volume group specifying the extent size `vgcreate -s 8MiB vgname /dev/xxx`
+4. Create the logical voluem with expected size: `lvcreate -l 50 -n lvname vgname`
+5. Assign a file system to the LV `mkfs.xfs /dev/vgname/lvname`
+5. Make the mount point directory
+6. Mount it in fstab with the path of the lv `/dev/vgname/lvname  /mountpoint   xfs   defaults  0 0`
 
 <br>
 
@@ -223,7 +236,7 @@ To verify the changes, create a new user, then run `chage -l username`.
   - copy the same structure as the root, but replace the third column with NOPASSWD: /usr/bin/cmd
   - cmd should be the command, you can get the pull path using `which`
 2. Modify the user and specify the path to the cmd allowed
-  - `usermod -s /usr/bin/passwd` username to allow the user only to change their password
+  - `usermod -s /usr/bin/passwd username` to allow the user only to change their password
 
 <br>
 
@@ -235,6 +248,7 @@ To verify the changes, create a new user, then run `chage -l username`.
   - -t option give the image a name and version
   - you must specify the directory where the image is, in this cae its "."
   - otherwise specify the path to the Containerfile with -f 
+3. You can run the podman image after building
 
 <br>
 
@@ -243,6 +257,7 @@ To verify the changes, create a new user, then run `chage -l username`.
 1. Install, enable and start chronyd service
 2. Use `timedatectl set-timezone America/xxx`
 3. Set NTP: `timedatectl set-ntp 1`
+- You only need to restart chronyd if you edited its config file
 
 <br>
 
@@ -252,8 +267,8 @@ To verify the changes, create a new user, then run `chage -l username`.
 - httpd
 - vsftpd
 - chronyd
-- mandb 
 - **crond** for cron jobs to work!!!
+- tuned
 
 <br>
 
